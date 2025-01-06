@@ -1,1 +1,1 @@
-### Aim of the experiment
+### The aim is to evaluate the BER performance and diversity gain of the Alamouti scheme using BPSK at both baseband and passband levels under various channel conditions, highlighting its effectiveness in combating multipath fading and noise.

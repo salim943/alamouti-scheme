@@ -1,0 +1,460 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Virtual Labs</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+  <body>
+    <!-- sidebar and body -->
+    <div class="flex min-h-[80vh]">
+      <div class="px-4 pb-6 flex-1">
+        <div class="flex">
+          <div class="flex-1 flex basis-4/5 flex-col">
+            <div class="flex max-lg:flex-col mt-5 items-center gap-x-4 gap-y-2">
+              <div class="flex items-center gap-2">
+                <label
+                  for="inputData"
+                  class="text-[#2c99ce] text-md font-medium"
+                  >Enter Binary Data:</label
+                >
+                <input
+                  class="border px-1 w-56 border-black py-1 rounded-sm"
+                  type="text"
+                  id="inputData"
+                  value="1001010111011010100111"
+                />
+              </div>
+              <div class="flex justify-center">
+                <button
+                  class="bg-blue-500 text-white rounded-md px-2 py-1"
+                  class="button"
+                  onclick="generateRandomData()"
+                >
+                  Generate Random Data
+                </button>
+              </div>
+              <div class="flex justify-center items-center">
+                <button
+                  class="bg-blue-500 text-white rounded-md px-2 py-1"
+                  class="button"
+                  onclick="processInputData()"
+                >
+                  Simulate
+                </button>
+              </div>
+              <div class="flex justify-center items-center">
+                <button
+                  class="bg-blue-500 text-white rounded-md px-2 py-1"
+                  class="button"
+                  onclick="generatePlots()"
+                >
+                  Generate Plot
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex-1 justify-center mt-3 flex items-center gap-2 py-2 flex-col basis-1/5"
+          >
+            <a href="../bervssnr/Alamouti_BerVsSnr.html">
+              <button class="bg-blue-500 text-white rounded-md px-2 py-1">
+                Generate BERvsSNR
+              </button>
+            </a>
+          </div>
+        </div>
+
+        <div class="flex mt-4 border-t-2 justify-between">
+          <div class=" w-full flex flex-col gap-y-2 items-center">
+            <div class="flex w-full my-1 justify-around">
+              <div class="flex flex-col items-center">
+                <h3 class="text-[18px] font-medium">Transmitted Data from Antenna 1</h3>
+                <div class="w-[270px] text-center h-[30px] rounded-sm border border-black">
+                  <p id="array3Content"></p>
+                </div>
+              </div>
+              <div class="flex flex-col items-center">
+                <h3 class="text-[18px] font-medium">Transmitted Data from Antenna 2</h3>
+                <div class="w-[270px] text-center h-[30px] rounded-sm border border-black">
+                  <p id="array4Content"></p>
+                </div>
+              </div>
+            </div>
+            <div class="flex w-full my-1 justify-around">
+                <div class="flex flex-col items-center">
+                  <h3 class="text-[18px] font-medium">BPSK Modulated Signal (from Tx antenna 1, Tx antenna 2)</h3>
+                  <div class="w-[460px] text-center h-[30px] rounded-sm border border-black">
+                    <p id="bpskSignalContent"></p>
+                  </div>
+                </div>
+            </div>
+            <div class="flex w-full my-1 justify-between">
+                <div class="flex flex-col items-center">
+                  <h3 class="text-[18px] font-medium">Encoded Signal</h3>
+                  <div class="w-[408px] text-center min-h-[200px] rounded-sm border border-black">
+                    <p class=" p-2 text-sm" id="encodedSignalContent"></p>
+                  </div>
+                </div>
+                <div class="flex flex-col items-center">
+                  <h3 class="text-[18px] font-medium">Received Signal</h3>
+                  <div class="w-[408px] text-center min-h-[200px] rounded-sm border border-black">
+                    <p class=" p-2 text-sm" id="receivedSignalContent"></p>
+                  </div>
+                </div>
+            </div>
+            <div class="flex w-full my-1 justify-around">
+                <div class="flex flex-col items-center">
+                  <h3 class="text-[18px] font-medium">Decoded Data from Receiver Antenna 1</h3>
+                  <div class="w-[270px] text-center h-[30px] rounded-sm border border-black">
+                    <p id="array1Content"></p>
+                  </div>
+                </div>
+                <div class="flex flex-col items-center">
+                  <h3 class="text-[18px] font-medium">Decoded Data from Receiver Antenna 2</h3>
+                  <div class="w-[270px] text-center h-[30px] rounded-sm border border-black">
+                    <p id="array2Content"></p>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div
+            class="flex w-[45%] flex-col justify-center items-center"
+          >
+            <div
+              id="transmittedSignalAntenna1"
+              class="w-[500px] max-h-[330px]"
+            ></div>
+            <div
+              id="transmittedSignalAntenna2"
+              class="w-[500px] max-h-[330px]"
+            ></div>
+            <div id="decodedSignalAntenna1" class="w-[500px] max-h-[330px]"></div>
+            <div id="decodedSignalAntenna2" class="w-[500px] max-h-[330px]"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Function to add two complex numbers
+      function addComplex(z1, z2) {
+        return {
+          real: z1.real + z2.real,
+          imag: z1.imag + z2.imag,
+        };
+      }
+
+      // Function to subtract two complex numbers
+      function subtractComplex(z1, z2) {
+        return {
+          real: z1.real - z2.real,
+          imag: z1.imag - z2.imag,
+        };
+      }
+
+      // Function to multiply two complex numbers
+      function multiplyComplex(z1, z2) {
+        return {
+          real: z1.real * z2.real - z1.imag * z2.imag,
+          imag: z1.real * z2.imag + z1.imag * z2.real,
+        };
+      }
+
+      // Function to multiply two matrices
+      function multiplyMatrices(matrix1, matrix2) {
+        const result = [];
+        for (let i = 0; i < matrix1.length; i++) {
+          result.push([]);
+          for (let j = 0; j < matrix2[0].length; j++) {
+            let sum = { real: 0, imag: 0 };
+            for (let k = 0; k < matrix2.length; k++) {
+              const product = multiplyComplex(matrix1[i][k], matrix2[k][j]);
+              sum = addComplex(sum, product);
+            }
+            result[i][j] = sum;
+          }
+        }
+        return result;
+      }
+
+      // Function to perform BPSK modulation
+      function performBPSKModulation(data) {
+        return data.map((bit) => 1 - 2 * bit);
+      }
+
+      // Function to convert a real number to a complex number object
+      function toComplex(real) {
+        return { real: real, imag: 0 };
+      }
+
+      // Function to compute the Hermitian (conjugate transpose) of a matrix with complex elements
+      function hermitian(matrix) {
+        const rows = matrix.length;
+        const cols = matrix[0].length;
+
+        // Initialize a new matrix with transposed dimensions
+        const result = [];
+        for (let j = 0; j < cols; j++) {
+          result[j] = [];
+        }
+
+        // Compute the Hermitian matrix
+        for (let i = 0; i < rows; i++) {
+          for (let j = 0; j < cols; j++) {
+            // Take the complex conjugate of each element during transposition
+            result[j][i] = {
+              real: matrix[i][j].real,
+              imag: -matrix[i][j].imag,
+            };
+          }
+        }
+
+        return result;
+      }
+
+      // Function to decode BPSK symbols
+      function decodeBPSK(demodulatedSymbols) {
+        const decodedData = [];
+        // Loop through each array of demodulated symbols
+        for (let i = 0; i < demodulatedSymbols.length; i++) {
+          const symbolArray = demodulatedSymbols[i];
+          decodedData[i] = [];
+          // Loop through each demodulated symbol in the array
+          for (let j = 0; j < symbolArray.length; j++) {
+            // Check the real part of the complex number
+            if (symbolArray[j].real < 0) {
+              // If real part is less than 0, return 1
+              decodedData[i][j] = 1;
+            } else {
+              // If real part is greater than or equal to 0, return 0
+              decodedData[i][j] = 0;
+            }
+          }
+        }
+        return decodedData;
+      }
+
+      // Function to separate arrays based on row index
+      function separateArrays(decodedData) {
+        const array0 = [];
+        const array1 = [];
+
+        // Loop through each symbol in the decoded data
+        for (let j = 0; j < decodedData[0].length; j++) {
+          array0.push(decodedData[0][j]);
+          array1.push(decodedData[1][j]);
+        }
+        return [array0, array1];
+      }
+
+      // Define matrices with complex values
+      const matrix1 = [
+        [
+          { real: 1, imag: 0 },
+          { real: 1, imag: 0 },
+        ],
+        [
+          { real: 0, imag: -1 },
+          { real: 0, imag: 1 },
+        ],
+      ];
+
+      // Channel Matrix
+      const H = [
+        [
+          { real: 0.456657508657897, imag: -0.00356455810292579 },
+          { real: 0.272397136754507, imag: -0.826905876625624 },
+        ],
+        [
+          { real: -1.03600068331625, imag: -0.180444773127763 },
+          { real: 0.790765484479462, imag: 0.414730433425529 },
+        ],
+      ];
+
+      // Function to generate random binary data as row matrix
+      function generateRandomBinaryData(length) {
+        // Generate a single array of random binary data
+        const rowData = [];
+        for (let i = 0; i < length; i++) {
+          rowData.push(Math.round(Math.random()));
+        }
+        return rowData;
+      }
+
+      // Function to process user input data
+      function processInputData() {
+        const inputData = document.getElementById("inputData").value;
+
+        const data = [
+          Array.from(inputData)
+            .filter((_, index) => index % 2 === 0)
+            .map((bit) => parseInt(bit)),
+          Array.from(inputData)
+            .filter((_, index) => index % 2 !== 0)
+            .map((bit) => parseInt(bit)),
+        ];
+
+        // Perform BPSK modulation
+        const bpskModulatedSignal = [
+          performBPSKModulation(data[0]),
+          performBPSKModulation(data[1]),
+        ];
+
+        // Convert the matrix to complex
+        const matrix2 = bpskModulatedSignal.map((row) => row.map(toComplex));
+
+        // Multiply the matrices
+        const encodedSymbols = multiplyMatrices(matrix1, matrix2);
+
+        // Compute the Hermitian matrix of H
+        const H_hermitian = hermitian(H);
+
+        // Multiply H and encoded symbols to get the received signal
+        const receivedSignal = multiplyMatrices(H, encodedSymbols);
+
+        // Alamouti decoding
+        const y = multiplyMatrices(H_hermitian, receivedSignal);
+
+        const matrix1_hermitian = hermitian(matrix1);
+
+        const decodedSymbols = multiplyMatrices(matrix1_hermitian, y);
+
+        // Decode BPSK symbols
+        const decodedBPSKData = decodeBPSK(decodedSymbols);
+
+        // Separate arrays based on row index
+        const [array0, array1] = separateArrays(decodedBPSKData);
+
+        // Display the arrays in the browser
+        displayArraysInBrowser(
+          array0,
+          array1,
+          data[0],
+          data[1],
+          encodedSymbols,
+          receivedSignal,
+          bpskModulatedSignal
+        );
+      }
+
+      // Function to display arrays in the browser
+      function displayArraysInBrowser(
+        rxarray1,
+        rxarray2,
+        txdata1,
+        txdata2,
+        encodedSignal,
+        receivedSignal,
+        bpskModulatedSignal
+      ) {
+        // Get the <p> elements where the arrays will be displayed
+        const array1ContentElement = document.getElementById("array1Content");
+        const array2ContentElement = document.getElementById("array2Content");
+        const array3ContentElement = document.getElementById("array3Content");
+        const array4ContentElement = document.getElementById("array4Content");
+        const encodedSignalContentElement = document.getElementById(
+          "encodedSignalContent"
+        );
+        const receivedSignalContentElement = document.getElementById(
+          "receivedSignalContent"
+        );
+        const bpskSignalContentElement =
+          document.getElementById("bpskSignalContent");
+
+        // Convert the arrays to strings and set them as inner text of <p> elements
+        array1ContentElement.innerText = JSON.stringify(rxarray1);
+        array2ContentElement.innerText = JSON.stringify(rxarray2);
+        array3ContentElement.innerText = JSON.stringify(txdata1);
+        array4ContentElement.innerText = JSON.stringify(txdata2);
+        encodedSignalContentElement.innerText = JSON.stringify(encodedSignal);
+        receivedSignalContentElement.innerText = JSON.stringify(receivedSignal);
+        bpskSignalContentElement.innerText =
+          JSON.stringify(bpskModulatedSignal);
+      }
+
+      // Function to generate random data and populate input field
+      function generateRandomData() {
+        const randomData = generateRandomBinaryData(22); // Adjusted length to match default input length
+        document.getElementById("inputData").value = randomData.join("");
+      }
+
+      // Function to generate plots using Plotly
+      function generatePlots() {
+        // Get the arrays from the page
+        const txdata1 = JSON.parse(
+          document.getElementById("array3Content").innerText
+        );
+        const txdata2 = JSON.parse(
+          document.getElementById("array4Content").innerText
+        );
+        const rxarray1 = JSON.parse(
+          document.getElementById("array1Content").innerText
+        );
+        const rxarray2 = JSON.parse(
+          document.getElementById("array2Content").innerText
+        );
+
+        // Plot transmitted signals
+        Plotly.newPlot(
+          "transmittedSignalAntenna1",
+          [
+            {
+              y: txdata1,
+              type: "scatter",
+              mode: "lines+markers",
+              name: "Transmitted Signal Antenna 1",
+            },
+          ],
+          {
+            title: "Transmitted Signal from Antenna 1",
+          }
+        );
+        Plotly.newPlot(
+          "transmittedSignalAntenna2",
+          [
+            {
+              y: txdata2,
+              type: "scatter",
+              mode: "lines+markers",
+              name: "Transmitted Signal Antenna 2",
+            },
+          ],
+          {
+            title: "Transmitted Signal from Antenna 2",
+          }
+        );
+
+        // Plot decoded signals
+        Plotly.newPlot(
+          "decodedSignalAntenna1",
+          [
+            {
+              y: rxarray1,
+              type: "scatter",
+              mode: "lines+markers",
+              name: "Decoded Signal Antenna 1",
+            },
+          ],
+          {
+            title: "Decoded Signal from Antenna 1",
+          }
+        );
+        Plotly.newPlot(
+          "decodedSignalAntenna2",
+          [
+            {
+              y: rxarray2,
+              type: "scatter",
+              mode: "lines+markers",
+              name: "Decoded Signal Antenna 2",
+            },
+          ],
+          {
+            title: "Decoded Signal from Antenna 2",
+          }
+        );
+      }
+    </script>
+  </body>
+</html>

@@ -1,13 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
+	<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Virtual Labs</title>
 </head>
 <body>
-		<!-- Your code goes here-->
+	<div class="px-6 pb-6 flex-1">
+        <div
+          class="w-full text-[#007bff] font-normal text-[19.2px]"
+          style="font-family: Raleway, sans-serif"
+        >
+          <h2 class="text-center pt-8 pb-4 mb-2 text-[#2C99CE] text-[32px]">
+            Simulation
+          </h2>
+          <ol class="mb-4 pl-4">
+            <li>
+              <a href="alamouti-baseband.html">
+                <div class="flex">
+                  <span class="text-black mr-4">1.</span>
+                  <p class="hover:text-[#3e6389] hover:underline">
+                    Alamouti Scheme using BPSK (Baseband)
+                  </p>
+                </div>
+              </a>
+            </li>
+			<li>
+              <a href="alamouti-passband.html">
+                <div class="flex">
+                  <span class="text-black mr-4">2.</span>
+                  <p class="hover:text-[#3e6389] hover:underline">
+                    Alamouti Scheme using BPSK (Passband) 
+                  </p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="alamouti-ber-vs-snr.html">
+                <div class="flex">
+                  <span class="text-black mr-4">3.</span>
+                  <p class="hover:text-[#3e6389] hover:underline">
+                    BER vs. SNR for the Alamouti scheme 
+                  </p>
+                </div>
+              </a>
+            </li>
+          </ol>         
+        </div>
+      </div>
 
 	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
 </body>
 </html>

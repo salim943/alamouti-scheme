@@ -1,0 +1,192 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Virtual Labs</title>
+    <style>
+      table {
+        width: 80%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+      }
+      th {
+        width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- sidebar and body -->
+    <div class="flex min-h-[80vh]">
+      <div class="px-6 pb-6 mt-1 flex-1">
+        <div class="">
+          <div class="flex flex-col justify-center">
+            <div class="flex max-lg:flex-col gap-x-4 gap-y-2 mt-2">
+              <div class="">
+                <div class="flex items-center justify-center gap-1">
+                  <label for="xInput" class="font-medium">SNR (in dB):</label>
+                  <input
+                    class="max-lg:ml-10 w-32 border border-black px-2 py-1 rounded-sm"
+                    type="number"
+                    id="xInput"
+                    value="0"
+                    step="1"
+                    min="-40"
+                    max="40"
+                  />
+                </div>
+              </div>
+              <div class="flex justify-center">
+                <button
+                  class="bg-blue-500 text-white rounded-md px-2 py-1"
+                  onclick="addRow()"
+                >
+                  Calculate BER
+                </button>
+              </div>
+              <div class="flex justify-center">
+                <button
+                  class="bg-blue-500 text-white rounded-md px-2 py-1"
+                  id="plotButton"
+                  onclick="plotData()"
+                >
+                  Plot BER vs SNR
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="flex my-2 max-lg:flex-col">
+            <div class="flex-1 basis-2/5">
+              <h3 class="flex ml-3 text-[#42c7bc] text-[20px] font-medium">BER Results</h3>
+              <table class="mt-1" id="dataTable">
+                <thead>
+                <tr class="bg-slate-300">
+                  <th>SNR (dB)</th>
+                  <th>BER</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+              </table>
+            </div>
+            <div class="flex-1 basis-3/5">
+              <div id="plot" width="600" height="400"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function addRow() {
+          var x = parseInt(document.getElementById('xInput').value);
+          if (isNaN(x) || x < -40 || x > 40) {
+              alert("Please enter a valid SNR value between -40 and 40 dB.");
+              return;
+          }
+
+          var table = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+          var rows = table.getElementsByTagName('tr');
+
+          for (var i = 0; i < rows.length; i++) {
+              var cells = rows[i].getElementsByTagName('td');
+              if (parseInt(cells[0].innerHTML) === x) {
+                  alert("SNR value already exists in the table.");
+                  return;
+              }
+          }
+
+          var y = calculateY(x);
+
+          var newRow = table.insertRow();
+          var cell1 = newRow.insertCell(0);
+          var cell2 = newRow.insertCell(1);
+
+          cell1.innerHTML = x;
+          cell2.innerHTML = y;
+
+          sortTable();
+      }
+
+      function calculateY(x) {
+          var yValues = [
+              [0.246477053854132, 0.246048926134850, 0.245569012464121, 0.245031113002171, 0.244428302865385, 0.243752852058597, 0.242996137915709, 0.242148549764729, 0.241199385677290, 0.240136741376171, 0.238947391680987, 0.237616665303345, 0.236128314398933, 0.234464381098087, 0.232605064336243, 0.230528591778235, 0.228211103585073, 0.225626557344624, 0.222746666843226, 0.219540891686776, 0.215976500301597, 0.212018735774075, 0.207631122502726, 0.202775961803361, 0.197415076249696, 0.191510875011079, 0.185027824332948, 0.177934415875527, 0.170205726217829, 0.161826646065085, 0.152795816786766, 0.143130230591760, 0.132870312640086, 0.122085095014343, 0.110876812313684, 0.0993839235497487, 0.0877812705278498, 0.0762759585246623, 0.0650977845417498, 0.0544838271971645, 0.0446581987385205, 0.0358096973753851, 0.0280715771485342, 0.0215080697285148, 0.0161110946161626, 0.0118079583549785, 0.00847777490837734, 0.00597216707673121, 0.00413538295726613, 0.00282018224880118, 0.00189786874569490, 0.00126270074683792, 0.000832028802162873, 0.000543829434006401, 0.000353080279829422, 0.000227975179755516, 0.000146535675709487, 9.38442776047936e-05, 5.99217901799680e-05, 3.81701603923612e-05, 2.42677273491200e-05, 1.54051325809774e-05, 9.76712032213902e-06, 6.18642757403499e-06, 3.91536243189891e-06, 2.47646289159631e-06, 1.56557841512580e-06, 9.89339062896642e-07, 6.24997199713793e-07, 3.94731391361309e-07, 2.49251808446300e-07, 1.57364165981628e-07, 9.93386880121897e-08, 6.27028556145437e-08, 3.95750534980499e-08, 2.49763010297135e-08, 1.57620541246981e-08, 9.94672467341240e-09, 6.27673141819904e-09, 3.96073698957188e-09, 2.49925018120752e-09]
+          ];
+          var yValuesFlat = yValues[0];
+
+          var index = x + 40; // Adjusting index because x values start from -40
+          if (index >= 0 && index < yValuesFlat.length) {
+              return yValuesFlat[index];
+          } else {
+              return "N/A";
+          }
+      }
+
+      function sortTable() {
+          var table = document.getElementById('dataTable');
+          var rows, switching, i, x, y, shouldSwitch;
+          switching = true;
+
+          while (switching) {
+              switching = false;
+              rows = table.rows;
+              for (i = 1; i < rows.length - 1; i++) {
+                  shouldSwitch = false;
+                  x = parseInt(rows[i].getElementsByTagName('TD')[0].innerHTML);
+                  y = parseInt(rows[i + 1].getElementsByTagName('TD')[0].innerHTML);
+                  if (x > y) {
+                      shouldSwitch = true;
+                      break;
+                  }
+              }
+              if (shouldSwitch) {
+                  rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                  switching = true;
+              }
+          }
+      }
+
+    function plotData() {
+      var table = document.getElementById('dataTable');
+      var rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+      var xData = [];
+      var yData = [];
+
+      for (var i = 0; i < rows.length; i++) {
+          var cells = rows[i].getElementsByTagName('td');
+          xData.push(parseInt(cells[0].innerHTML));
+          yData.push(parseFloat(cells[1].innerHTML));
+      }
+
+      var trace = {
+          x: xData,
+          y: yData,
+          mode: 'lines+markers',
+          type: 'scatter',
+          name: 'Data'
+      };
+
+      var layout = {
+          title: 'BER vs SNR',
+          xaxis: {
+              title: 'SNR (dB)'
+          },
+          yaxis: {
+              title: 'BER',
+              type: 'log',
+              autorange: true
+          }
+      };
+
+      Plotly.newPlot('plot', [trace], layout);
+    }
+    </script>
+  </body>
+</html>

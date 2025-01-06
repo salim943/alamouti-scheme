@@ -2,38 +2,175 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "What is the primary benefit of using the Alamouti scheme in a BPSK system?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Increased data rate",
+        "b": "Improved spectral efficiency",
+        "c": "Diversity gain and reduced bit error rate",
+        "d": "Lower transmission power"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
-      },
-      "correctAnswer": "a",
-      "difficulty": "beginner"
-    },
-    {
-      "question": "This is a Sample Question 2?",
-      "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
-      },
-      "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "The Alamouti scheme primarily improves reliability, not data rate.",
+        "b": "Spectral efficiency is not significantly improved in this scheme.",
+        "c": "Correct. The Alamouti scheme provides diversity gain and reduces the bit error rate.",
+        "d": "It does not directly lower transmission power."
       },
       "correctAnswer": "c",
-      "difficulty": "beginner"
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "How many time slots does the Alamouti scheme use to transmit two symbols in a BPSK system?",
+      "answers": {
+        "a": "One time slot",
+        "b": "Two time slots",
+        "c": "Three time slots",
+        "d": "Four time slots"
+      },
+      "explanations": {
+        "a": "One time slot is not sufficient for transmitting two symbols in this scheme.",
+        "b": "Correct. The Alamouti scheme transmits two symbols over two time slots.",
+        "c": "Three time slots are not required.",
+        "d": "Four time slots would be excessive for this scheme."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "In the Alamouti scheme, how many transmitter antennas are used?",
+      "answers": {
+        "a": "One",
+        "b": "Two",
+        "c": "Three",
+        "d": "Four"
+      },
+      "explanations": {
+        "a": "One transmitter antenna does not provide spatial diversity.",
+        "b": "Correct. The Alamouti scheme uses two transmitter antennas.",
+        "c": "Three antennas are not used in the basic Alamouti scheme.",
+        "d": "Four antennas are excessive for this scheme."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What type of diversity is achieved by using the Alamouti scheme in a BPSK system?",
+      "answers": {
+        "a": "Time diversity",
+        "b": "Frequency diversity",
+        "c": "Spatial diversity",
+        "d": "Polarization diversity"
+      },
+      "explanations": {
+        "a": "The scheme does not rely on time diversity.",
+        "b": "Frequency diversity is not the focus here.",
+        "c": "Correct. The Alamouti scheme achieves spatial diversity using multiple antennas.",
+        "d": "Polarization diversity is unrelated to the Alamouti scheme."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is the encoding matrix used in the Alamouti scheme?",
+      "answers": {
+        "a": "1 -1; 1 1",
+        "b": "s1 s2; -s2* s1*",
+        "c": "s1 s2; s2 s1",
+        "d": "s1* s2; -s2 s1*"
+      },
+      "explanations": {
+        "a": "This is not the correct Alamouti matrix.",
+        "b": "Correct. This is the encoding matrix used for Alamouti scheme.",
+        "c": "This is not the structure of the encoding matrix.",
+        "d": "Incorrect arrangement of conjugate and signs."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Which channel model is most commonly used for testing the Alamouti scheme?",
+      "answers": {
+        "a": "AWGN only",
+        "b": "Rayleigh fading",
+        "c": "Rician fading",
+        "d": "Free space model"
+      },
+      "explanations": {
+        "a": "AWGN only does not represent realistic multipath fading.",
+        "b": "Correct. Rayleigh fading is used to test systems with multipath propagation.",
+        "c": "Rician fading is also used but less common than Rayleigh for Alamouti.",
+        "d": "Free space model lacks fading effects needed for Alamouti tests."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What assumption is made at the receiver for decoding the Alamouti scheme?",
+      "answers": {
+        "a": "The receiver has perfect channel state information (CSI).",
+        "b": "The transmitter and receiver are synchronized only in time.",
+        "c": "The receiver knows the exact noise power.",
+        "d": "The receiver estimates CSI with some error margin."
+      },
+      "explanations": {
+        "a": "Correct. The receiver typically assumes perfect CSI for optimal decoding.",
+        "b": "Synchronization is not the only assumption.",
+        "c": "Noise power knowledge is not assumed.",
+        "d": "Decoding assumes perfect CSI for ideal performance."
+      },
+      "correctAnswer": "a",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "How does the Alamouti scheme handle the received signal for decoding?",
+      "answers": {
+        "a": "It uses only the signal from one antenna.",
+        "b": "It combines signals from two antennas with conjugate multiplication.",
+        "c": "It averages the received signals over multiple time slots.",
+        "d": "It decodes the received signal without any processing."
+      },
+      "explanations": {
+        "a": "Both antennas are used for spatial diversity.",
+        "b": "Correct. The scheme combines signals using complex conjugate multiplication.",
+        "c": "Averaging is not used in Alamouti decoding.",
+        "d": "Processing is essential for accurate decoding."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is the key advantage of the Alamouti scheme in terms of complexity?",
+      "answers": {
+        "a": "Lower transmission power",
+        "b": "Simple linear decoding",
+        "c": "No need for channel estimation",
+        "d": "High spectral efficiency"
+      },
+      "explanations": {
+        "a": "Transmission power is not significantly reduced.",
+        "b": "Correct. The scheme allows for simple linear decoding at the receiver.",
+        "c": "Channel estimation is needed for decoding.",
+        "d": "Spectral efficiency is not the main advantage."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Which property of the channel is crucial for the Alamouti scheme to work effectively?",
+      "answers": {
+        "a": "The channel must be stationary and flat fading during two time slots.",
+        "b": "The channel must change rapidly to achieve better diversity.",
+        "c": "The channel must have Rician fading characteristics.",
+        "d": "The channel must have no noise."
+      },
+      "explanations": {
+        "a": "Correct. The channel should be constant during the two time slots for proper decoding.",
+        "b": "Rapid changes disrupt the decoding process.",
+        "c": "Rician fading is not necessary for the scheme.",
+        "d": "Noise is always present and accounted for in the design."
+      },
+      "correctAnswer": "a",
+      "difficulty": "intermediate"
     }
   ]
 }
+

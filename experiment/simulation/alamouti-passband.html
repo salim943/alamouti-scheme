@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Virtual Labs</title>
+    <style>
+	    .container {
+            display: flex;
+			    height: 100vh; /* Full viewport height */
+        width: 100vw; /* Full viewport width */
+        }
+		.left-half {
+            width: 40vw;
+			}
+
+        .middle {
+            width: 50vw;
+		    position: relative;
+		    overflow: auto;
+        }
+		        .right-half {
+				width: 10vw;
+				
+        }
+/* Custom table styles */
+.custom-table {
+    width: auto;
+    border-collapse: collapse;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+/* Header and cell styles */
+.custom-table th,
+.custom-table td {
+    border: 1px solid black;  /* Adds a solid black border */
+    padding: 5px;  /* Slightly larger padding for better spacing */
+    text-align: center;
+    font-size: 17px;  /* Set font size for headers and cells */
+}
+
+/* Header-specific styles */
+.custom-table th {
+    width: auto;  /* Sets the width to auto to fit content */
+    background-color: #f2f2f2;  /* Light grey background for header */
+    font-weight: bold;  /* Bold text for headers */
+    font-size: 18px;  /* Larger font size for headers */
+}
+
+/* Alternate row styling for better readability */
+.custom-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;  /* Slightly darker background for even rows */
+}
+
+/* Table hover effect */
+.custom-table tbody tr:hover {
+    background-color: #e6f7ff;  /* Light blue background on row hover */
+}
+
+
+    </style>
+  </head>
+  <body>
+    <!-- sidebar and body -->
+	    <!-- sidebar and body -->
+	<div id = "instructions">
+    <h1>Instructions for Alamouti Scheme using BPSK (Passband)</h1>
+    <ul>
+        <li>Step 1: Click on 'Generate Message' button to generate input message signal</li>
+		<li>Step 2: Then click on 'Generate NRZ' button to generate NRZ signal for message. NRZ simplifies the processing of binary data, including the Alamouti space-time block coding (STBC). Each BPSK-modulated symbol in the Alamouti scheme is either a +1 or -1, and NRZ encoding aligns perfectly with this binary structure, making it easier to map and process the transmitted symbols.</li>
+        <li>Step 3: Click on 'Show Transmitted Signal from Antenna 1' button to generate signal for odd time slot</li>
+		<li>Step 4: Click on 'Show Transmitted Signal from Antenna 2' button to generate signal for even time slot</li>
+        <li>Step 5: Click on 'Show Channel Coefficeints' to show Rayleigh Fading Channel Coefficients</li>
+		</ul>
+	</div>
+	<hr/>
+	<br>
+    <div class="flex min-h-[10vh]">
+      <div class="px-6 pb-6 mt-1 flex-1">
+        <div class="">
+          <div class="flex flex-col justify-center">
+            <div class="flex max-lg:flex-col gap-x-12 gap-y-2 mt-2">
+			<div class="flex items-center justify-center gap-1 mt-2">
+			<label for="carrierFrequency">Carrier Frequency (in Hz):</label>
+<select class="input-field border border-black px-2 py-1 rounded-sm" id="carrierFrequency">
+  <option value="10"  selected>10 Hz</option>
+  <option value="20">20 Hz</option>  <!-- Default selected -->
+  <option value="50">50 Hz</option>
+</select>
+			</div>
+			<div class="flex items-center justify-center gap-1 mt-2">
+				<label for="samplingFrequency">Sampling Frequency (in Hz):</label>
+	<select class="input-field border border-black px-2 py-1 rounded-sm" id="samplingFrequency">
+  <option value="100">100 Hz</option>
+  <option value="1000" selected>1000 Hz</option>  <!-- Default selected -->
+  <option value="10000">10000 Hz</option>
+</select>
+			</div>
+              <div class="flex items-center justify-center gap-1 mt-2">
+        <label for="inputBits">Input Bits:</label>
+<input class="input-field border border-black px-2 py-1 rounded-sm" type="text" id="inputBits" value="1, 1, 0, 1, 1, 0, 1, 1, 1, 0"/>
+                </div>
+              <div class="flex items-center justify-center gap-1 mt-2">
+        <label for="snr">SNR (in dB):</label>
+    <input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="snr" value="0"/>
+              </div
+			 <br/>
+            </div>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
+	<hr/>
+	
+	<div class = "container">
+	<div class = "left-half">
+	          <div class="flex gap-1">
+              <div class="flex-1 flex flex-col items-center">
+                <div class="w-full">
+				<br><br><br><br>
+                  <img
+                    src="alamouti0810.png"
+                    alt="Alamouti Scheme" 
+					style= "height:450px; width: 550px; margin-left: 40px"
+                  />
+				<button
+                  class="button bg-blue-500 text-white rounded-md px-2 py-1 absolute top-[360px] left-[2px]"
+                  onclick="plotOriginalMessage()"
+                >
+                  Generate Message
+                </button>
+				<button
+                  class="button bg-blue-500 text-white rounded-md px-2 py-1 absolute top-[400px] left-[2px]"
+                  onclick="plotBPSKSignal()"
+                >
+                  Generate NRZ
+                </button>
+								<button
+                  class="button bg-blue-500 text-white rounded-md px-2 py-1 absolute bottom-[10px] left-[2px]"
+                  onclick="generatePSKModulatedSignal1()"
+                >
+                  Show Transmitted Signal from Antenna 1
+                </button>
+				
+			    <button
+                  class="button bg-blue-500 text-white rounded-md px-2 py-1 relative bottom-[-50px] left-[2px]"
+                  onclick="generatePSKModulatedSignal2()"
+                >
+                  Show Transmitted Signal from Antenna 2
+                </button>
+				
+					                <button
+                  class="button bg-blue-500 text-white rounded-md px-2 py-1 relative bottom-[-5px] left-[50px]"
+                  onclick="plotChannelCoefficients()"
+                >
+                Show Channel Coefficients
+                </button>
+				
+			    <button
+                  class="button bg-gray-500 text-white rounded-md px-2 py-1 relative bottom-[-90px] left-[200px]"
+                  onclick="plotCombinedReceivedSignal()"
+                >
+                Show Received Signal
+                </button>
+				
+              </div>
+              </div>
+			  </div>
+			  <div align="center" style="position: relative; top: 130px;">
+				<p style="font-size: 20px;"><b>Channel Matrix</b><p>
+				<div>
+		    h11 =<input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="h1_real" value="0.4242641"/>		
+		    +j. <input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="h1_imag" value="0.5656854"/>
+                </div>	
+				<div>
+		    h21 =<input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="h2_real" value="0.4242641"/>		
+		    +j. <input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="h2_imag" value="0.5656854" />
+                </div>				
+			  </div>
+
+	</div>
+
+
+				
+	<div class = "middle">
+	            <div id = "scrolltomessage" class="flex items-center gap-2 justify-center max-lg:flex-col">
+              <div id="messageSignal" class="w-[600px] h-[450px]"></div>
+			</div>
+		    <div id = "scrolltonrz" class="flex items-center gap-2 justify-center max-lg:flex-col">
+              <div id="bpskSignal" class="w-[600px] h-[450px]"></div>
+			</div>
+			<div id = "scrolltopassband1" class="flex items-center gap-2 justify-center max-lg:flex-col">
+              <div id="modulated-plot1" class="w-[600px] h-[450px]"></div>
+			</div>
+			<div id = "scrolltopassband2" class="flex items-center gap-2 justify-center max-lg:flex-col">
+                <div id="modulated-plot2" class="w-[600px] h-[450px]"></div>
+              </div>
+			  			<div id = "scrolltocir" class="flex items-center gap-2 justify-center max-lg:flex-col">
+                <div id="plot-CIR" class="w-[600px] h-[450px]"></div>
+              </div>
+	</div>
+	
+<div class="right-half">
+<br/>
+    <table id="resultsTable" border="1" class = "custom-table">
+        <tr>
+            <th>SNR (dB)</th>
+            <th>BER</th>
+        </tr>
+    </table>
+
+    <a href="alamouti-ber-vs-snr.html"><button class="button bg-blue-500 text-white rounded-md px-2 py-1 text-base"
+	onclick="plotBERvsSNR()">Plot BER vs SNR</button></a>
+    <div id="plot-BER-SNR"></div>
+</div></div>
+	
+	
+	
+
+	    <!-- sidebar and body -->
+			  <div id = "container">
+    <h1>Instructions for Alamouti Demodulation</h1>
+    <ul>
+				<li>Step 1: Click on 'Show Received Signal' button to show receied signal at odd and even time slots</li>
+
+		<li>Step 2: You can Demodulate the Alamouti clicking on the 'Perform Demodulation' button</li>
+    </ul>
+</div>
+    <div class="flex min-h-[80vh]">
+      <div class="px-6 pb-6 flex-1">
+        <!--  -->
+        <div class="flex">
+          <div class="flex-1 basis-4/5 flex flex-col">
+            <div class="flex max-lg:flex-col mt-5 items-center gap-x-8 gap-y-2">
+
+
+            </div>
+            <div class="flex max-lg:flex-col mt-5 items-center gap-x-8 gap-y-2">
+ 
+
+            </div>
+          </div>
+
+        </div>
+        <div class="mt-4 border-t-2">
+          <div class="flex flex-col">
+            <div class="flex justify-center pt-4">
+              <button
+                class="bg-blue-500 text-white rounded-md px-2 py-1"
+                class="button"
+                onclick="plotCombinedReceivedSignal()"
+              >
+               Show Received Signal
+              </button>
+            </div>
+
+			            <div class="flex justify-center pt-4">
+              <button
+                class="bg-blue-500 text-white rounded-md px-2 py-1"
+                class="button"
+                onclick="plotDecodedMessage()"
+              >
+               Perform Demodulation
+              </button>
+            </div>
+            <div class="flex gap-1">
+              <div class="flex-1 flex flex-col items-center">
+                <div class="w-full">
+                  <img
+                    class="w-[80%] h-[80%]"
+                    src="alamouti_demod.png"
+                    alt="Alamouti_Scheme"
+					style= "height:550px; width: 650px;"
+                  />
+                </div>
+              </div>
+			  <div style="overflow: auto">
+              <div id = "scrolltoreceivedsignal" class="flex items-center gap-2 justify-center max-lg:flex-col">
+              <div id="combinedReceivedSignal" class="w-[600px] h-[450px]"></div>
+            </div>
+			              <div id = "scrolltodemodulated" class="flex items-center gap-2 justify-center max-lg:flex-col">
+              <div id="decodedMessageSignal" class="w-[600px] h-[450px]"></div>
+            </div>
+			</div>
+            </div>
+          </div>
+        </div>
+        <!--  -->
+      </div>
+    </div>
+<script>
+        // Function to check if the number of input bits is odd
+        function checkInputBits() {
+            const input = document.getElementById('inputBits').value;
+            const bitsArray = input.split(',').map(item => item.trim()); // Create an array from the input
+
+            // Check if the length of the array is odd
+            if (bitsArray.length % 2 !== 0) {
+                alert("The number of input bits should be even.");
+            } 
+        }
+
+        // Select all button elements on the page
+        const buttons = document.querySelectorAll('button');
+
+        // Attach the click event listener to each button
+        buttons.forEach(button => {
+            button.addEventListener('click', checkInputBits);
+        });
+    </script>
+	
+<script>
+let Fc = parseInt(document.getElementById('carrierFrequency').value);
+let Fs = parseInt(document.getElementById('samplingFrequency').value);
+// Number of symbols to transmit
+
+let SNR_dB = parseInt(document.getElementById('snr').value);
+
+// Generate a random binary string (1s and -1s)
+let inputBits = document.getElementById('inputBits').value.split(',').map(item => Number(item.trim())); 
+let inputSymbols = inputBits.map(bit => bit === 0 ? -1 : 1); // Map 0 to -1 for BPSK
+let numSymbols = inputBits.length;
+
+// Pre-allocate arrays to store transmitted signals
+let alamoutiTransmittedSignals = Array.from({ length: 2 }, () => new Array(numSymbols).fill(0));
+let transmittedSignals = Array.from({ length: 2 }, () => new Array(numSymbols).fill(0));
+
+// Generate Rayleigh fading channel coefficients for both antennas
+let h1_real = parseFloat(document.getElementById('h1_real').value);
+let h1_imag = parseFloat(document.getElementById('h1_imag').value);
+let h2_real = parseFloat(document.getElementById('h2_real').value);
+let h2_imag = parseFloat(document.getElementById('h2_imag').value);
+
+// Vectorized Alamouti encoding for the two symbols
+let s1 = inputSymbols.filter((_, i) => i % 2 === 0); // First symbol for each pair
+let s2 = inputSymbols.filter((_, i) => i % 2 === 1); // Second symbol for each pair
+
+// Handle odd number of symbols by padding s2 with a zero if necessary
+if (numSymbols % 2 === 1) {
+    s2.push(0); // Pad s2 with zero if the number of symbols is odd
+}
+
+// Alamouti encoding
+let tx1 = s1; // Symbols for Antenna 1 in time slot 1
+let tx2 = s2; // Symbols for Antenna 2 in time slot 1
+let tx3 = tx2.map(symbol => -symbol); // Symbols for Antenna 1 in time slot 2
+let tx4 = s1.map(symbol => symbol); // Symbols for Antenna 2 in time slot 2
+
+// Store transmitted signals according to Alamouti encoding
+for (let i = 0; i < numSymbols; i += 2) {
+    alamoutiTransmittedSignals[0][i] = tx1[i / 2];   // Transmitted from antenna 1 (slot 1)
+    alamoutiTransmittedSignals[1][i] = tx2[i / 2];   // Transmitted from antenna 2 (slot 1)
+    if (i + 1 < numSymbols) { // Ensure within bounds
+        alamoutiTransmittedSignals[0][i + 1] = tx3[i / 2];   // Transmitted from antenna 1 (slot 2)
+        alamoutiTransmittedSignals[1][i + 1] = tx4[i / 2];   // Transmitted from antenna 2 (slot 2)
+    }
+}
+
+// Store transmitted signals
+for (let i = 0; i < numSymbols; i += 2) {
+    transmittedSignals[0][i] = s1[i / 2];  // Transmit from antenna 1
+    transmittedSignals[1][i] = s2[i / 2];  // Transmit from antenna 2
+}
+
+let modulated_signal1 = [];
+let modulated_signal2 = [];
+
+// Received signals over two time slots without noise
+let y_real = Array.from({ length: 2 }, () => new Array(numSymbols).fill(0));
+let y_imag = Array.from({ length: 2 }, () => new Array(numSymbols).fill(0));
+
+for (let i = 0; i < numSymbols; i += 2) {
+    y_real[0][i] = h1_real * s1[i / 2] + h2_real * s2[i / 2]; // Real part at time slot 1
+    y_imag[0][i] = h1_imag * s1[i / 2] + h2_imag * s2[i / 2]; // Imaginary part at time slot 1
+    y_real[1][i] = -h2_real * s1[i / 2] + h1_real * s2[i / 2]; // Real part at time slot 2
+    y_imag[1][i] = -h2_imag * s1[i / 2] + h1_imag * s2[i / 2]; // Imaginary part at time slot 2
+}
+
+// Add AWGN noise based on the specified SNR
+let noisePower = Math.pow(10, -SNR_dB / 10); // Convert SNR from dB to linear scale
+let noise_real = Array.from({ length: 2 }, () => Array.from({ length: Math.ceil(numSymbols / 2) }, () => Math.sqrt(noisePower / 2) * (Math.random() * 2 - 1))); // Generate real AWGN
+let noise_imag = Array.from({ length: 2 }, () => Array.from({ length: Math.ceil(numSymbols / 2) }, () => Math.sqrt(noisePower / 2) * (Math.random() * 2 - 1))); // Generate imaginary AWGN
+
+for (let i = 0; i < numSymbols; i += 2) {
+    y_real[0][i] += noise_real[0][i / 2]; // Add noise to the real parts of received signals
+    y_imag[0][i] += noise_imag[0][i / 2]; // Add noise to the imaginary parts of received signals
+    if (i + 1 < numSymbols) {
+        y_real[1][i] += noise_real[1][i / 2]; // Add noise to the real parts of received signals
+        y_imag[1][i] += noise_imag[1][i / 2]; // Add noise to the imaginary parts of received signals
+    }
+}
+
+/////////////////passband procesing////////////////////
+// Initialize result arrays
+
+let oddtimeslotmodulationplusnoise = new Array(modulated_signal1.length);
+let eventimeslotmodulationplusnoise = new Array(modulated_signal1.length);
+
+// Perform the operations
+for (let i = 0; i < modulated_signal1.length; i++) {
+    oddtimeslotmodulationplusnoise[i] = modulated_signal1[i] * h1_real + modulated_signal2[i] * h2_real; // a * c + b * d
+    eventimeslotmodulationplusnoise[i] = -modulated_signal2[i] * h2_real + modulated_signal1[i] * h1_real; // -b * c + a * d
+}
+
+//////////////////////passband procesing ends///////////////
+
+// Channel State Decoding with perfect knowledge (separate real and imaginary)
+let s1_hat_real = new Array(Math.ceil(numSymbols / 2)).fill(0);
+let s2_hat_real = new Array(Math.ceil(numSymbols / 2)).fill(0);
+
+for (let i = 0; i < numSymbols; i += 2) {
+    s1_hat_real[i / 2] = h1_real * y_real[0][i] - h2_imag * y_imag[1][i]; // Estimate real part of s1
+    s2_hat_real[i / 2] = h2_real * y_real[0][i] + h1_imag * y_imag[1][i]; // Estimate real part of s2
+}
+
+// Hard decision decoding (for BPSK)
+let decodedSymbols = new Array(numSymbols).fill(0);  // Store decoded symbols
+
+for (let i = 0; i < numSymbols; i += 2) {
+    decodedSymbols[i] = s1_hat_real[i / 2] > 0 ? 1 : 0; // Decision for s1
+    decodedSymbols[i + 1] = s2_hat_real[i / 2] > 0 ? 1 : 0; // Decision for s2
+}
+
+// Calculate and display errors
+let errors = decodedSymbols.reduce((count, symbol, index) => count + (inputBits[index] !== symbol ? 1 : 0), 0); // Count errors
+let ber = errors/inputBits.length;
+
+const results = []; // Array to store SNR and BER values
+function runSimulation() {
+// Number of symbols to transmit
+
+SNR_dB = parseInt(document.getElementById('snr').value);
+
+// Generate a random binary string (1s and -1s)
+inputBits = document.getElementById('inputBits').value.split(',').map(item => Number(item.trim())); 
+inputSymbols = inputBits.map(bit => bit === 0 ? -1 : 1); // Map 0 to -1 for BPSK
+numSymbols = inputBits.length;
+
+// Pre-allocate arrays to store transmitted signals
+alamoutiTransmittedSignals = Array.from({ length: 2 }, () => new Array(numSymbols).fill(0));
+transmittedSignals = Array.from({ length: 2 }, () => new Array(numSymbols).fill(0));
+
+// Generate Rayleigh fading channel coefficients for both antennas
+h1_real = parseFloat(document.getElementById('h1_real').value);
+h1_imag = parseFloat(document.getElementById('h1_imag').value);
+h2_real = parseFloat(document.getElementById('h2_real').value);
+h2_imag = parseFloat(document.getElementById('h2_imag').value);
+
+// Vectorized Alamouti encoding for the two symbols
+s1 = inputSymbols.filter((_, i) => i % 2 === 0); // First symbol for each pair
+s2 = inputSymbols.filter((_, i) => i % 2 === 1); // Second symbol for each pair
+
+// Handle odd number of symbols by padding s2 with a zero if necessary
+if (numSymbols % 2 === 1) {
+    s2.push(0); // Pad s2 with zero if the number of symbols is odd
+}
+
+// Alamouti encoding
+tx1 = s1; // Symbols for Antenna 1 in time slot 1
+tx2 = s2; // Symbols for Antenna 2 in time slot 1
+tx3 = tx2.map(symbol => -symbol); // Symbols for Antenna 1 in time slot 2
+tx4 = s1.map(symbol => symbol); // Symbols for Antenna 2 in time slot 2
+
+// Store transmitted signals according to Alamouti encoding
+for (let i = 0; i < numSymbols; i += 2) {
+    alamoutiTransmittedSignals[0][i] = tx1[i / 2];   // Transmitted from antenna 1 (slot 1)
+    alamoutiTransmittedSignals[1][i] = tx2[i / 2];   // Transmitted from antenna 2 (slot 1)
+    if (i + 1 < numSymbols) { // Ensure within bounds
+        alamoutiTransmittedSignals[0][i + 1] = tx3[i / 2];   // Transmitted from antenna 1 (slot 2)
+        alamoutiTransmittedSignals[1][i + 1] = tx4[i / 2];   // Transmitted from antenna 2 (slot 2)
+    }
+}
+
+// Store transmitted signals
+for (let i = 0; i < numSymbols; i += 2) {
+    transmittedSignals[0][i] = s1[i / 2];  // Transmit from antenna 1
+    transmittedSignals[1][i] = s2[i / 2];  // Transmit from antenna 2
+}
+
+// Received signals over two time slots without noise
+y_real = Array.from({ length: 2 }, () => new Array(numSymbols).fill(0));
+y_imag = Array.from({ length: 2 }, () => new Array(numSymbols).fill(0));
+
+for (let i = 0; i < numSymbols; i += 2) {
+    y_real[0][i] = h1_real * s1[i / 2] + h2_real * s2[i / 2]; // Real part at time slot 1
+    y_imag[0][i] = h1_imag * s1[i / 2] + h2_imag * s2[i / 2]; // Imaginary part at time slot 1
+    y_real[1][i] = -h2_real * s1[i / 2] + h1_real * s2[i / 2]; // Real part at time slot 2
+    y_imag[1][i] = -h2_imag * s1[i / 2] + h1_imag * s2[i / 2]; // Imaginary part at time slot 2
+}
+
+// Add AWGN noise based on the specified SNR
+noisePower = Math.pow(10, -SNR_dB / 10); // Convert SNR from dB to linear scale
+noise_real = Array.from({ length: 2 }, () => Array.from({ length: Math.ceil(numSymbols / 2) }, () => Math.sqrt(noisePower / 2) * (Math.random() * 2 - 1))); // Generate real AWGN
+noise_imag = Array.from({ length: 2 }, () => Array.from({ length: Math.ceil(numSymbols / 2) }, () => Math.sqrt(noisePower / 2) * (Math.random() * 2 - 1))); // Generate imaginary AWGN
+
+for (let i = 0; i < numSymbols; i += 2) {
+    y_real[0][i] += noise_real[0][i / 2]; // Add noise to the real parts of received signals
+    y_imag[0][i] += noise_imag[0][i / 2]; // Add noise to the imaginary parts of received signals
+    if (i + 1 < numSymbols) {
+        y_real[1][i] += noise_real[1][i / 2]; // Add noise to the real parts of received signals
+        y_imag[1][i] += noise_imag[1][i / 2]; // Add noise to the imaginary parts of received signals
+    }
+}
+
+// Channel State Decoding with perfect knowledge (separate real and imaginary)
+s1_hat_real = new Array(Math.ceil(numSymbols / 2)).fill(0);
+s2_hat_real = new Array(Math.ceil(numSymbols / 2)).fill(0);
+
+for (let i = 0; i < numSymbols; i += 2) {
+    s1_hat_real[i / 2] = h1_real * y_real[0][i] - h2_imag * y_imag[1][i]; // Estimate real part of s1
+    s2_hat_real[i / 2] = h2_real * y_real[0][i] + h1_imag * y_imag[1][i]; // Estimate real part of s2
+}
+
+// Hard decision decoding (for BPSK)
+decodedSymbols = new Array(numSymbols).fill(0);  // Store decoded symbols
+
+for (let i = 0; i < numSymbols; i += 2) {
+    decodedSymbols[i] = s1_hat_real[i / 2] > 0 ? 1 : 0; // Decision for s1
+    decodedSymbols[i + 1] = s2_hat_real[i / 2] > 0 ? 1 : 0; // Decision for s2
+}
+
+// Calculate and display errors
+errors = decodedSymbols.reduce((count, symbol, index) => count + (inputBits[index] !== symbol ? 1 : 0), 0); // Count errors
+ber = errors/inputBits.length;
+console.log('Number of transmitted symbols:', numSymbols);
+console.log('Number of errors:', errors);
+//document.getElementById('errorCount').innerText = `BER: ${ber}`;
+
+            // Check for duplicates in results
+            const existingEntry = results.find(entry => entry.snr === SNR_dB);
+            if (existingEntry) {
+                alert(`SNR value ${SNR_dB} dB already exists.`);
+                return;
+}
+
+            // Store SNR and BER
+            results.push({ snr: SNR_dB, ber: ber });
+            results.sort((a, b) => a.snr - b.snr); // Sort results by SNR
+
+            // Update results table
+            updateResultsTable();
+            //document.getElementById('errorCount').innerText = `BER: ${ber}`;
+        }
+
+        function updateResultsTable() {
+            const table = document.getElementById('resultsTable');
+            // Clear existing rows except for the header
+            table.innerHTML = `<tr><th>SNR (dB)</th><th>BER</th></tr>`;
+            results.forEach(result => {
+                const row = table.insertRow();
+                const cell1 = row.insertCell(0);
+                const cell2 = row.insertCell(1);
+                cell1.innerText = result.snr;
+                cell2.innerText = result.ber.toFixed(5);
+            });
+        }
+
+        function plotBERvsSNR() {
+            const xValues = results.map(result => result.snr);
+            const yValues = results.map(result => result.ber);
+
+            const trace = {
+                x: xValues,
+                y: yValues,
+                type: 'scatter',
+                mode: 'lines+markers',
+                marker: { color: 'blue' }
+            };
+
+            const layout = {
+                title: 'BER vs SNR',
+                xaxis: { title: 'SNR (dB)' },
+                yaxis: { title: 'BER', type: 'log' } // Logarithmic scale for BER
+            };
+
+            Plotly.newPlot('plot-BER-SNR', [trace], layout);
+        }
+
+function plotOriginalMessage() {
+    runSimulation();
+    
+    const xValues = inputBits.flatMap((_, idx) => [idx, (idx + 1)]);
+    const yValues = inputBits.flatMap(val => [val, val]);
+
+    // Create an array for the text based on yValues, only showing at specific ranges
+    const textValues = [];
+    for (let i = 0; i < yValues.length; i += 2) {
+        textValues.push(yValues[i].toString()); // Show the value for the start of the range
+        textValues.push(''); // Add an empty string for the second point in the range
+    }
+
+    Plotly.newPlot('messageSignal', [{
+        x: xValues,
+        y: yValues,
+        mode: 'lines+text', // Add 'text' to the mode
+        type: 'scatter',
+        marker: { color: 'green' },
+        text: textValues, // Set the text based on ranges
+        textposition: 'top right', // Position the text above the points
+    }], {
+        title: 'Original Message Signal',
+        xaxis: { title: 'Bit Index' },
+        yaxis: { title: 'Bit Value' }
+    });
+    
+    document.getElementById('scrolltomessage').scrollIntoView({ behavior: 'smooth' });
+    // Get the plot container
+    const plotElement = document.getElementById('messageSignal');
+    
+    // Apply CSS transform to zoom to 500%
+    plotElement.style.transition = 'transform 0.5s ease';  // Smooth transition
+    plotElement.style.transform = 'scale(1.2)';  // Zoom to 500%
+}
+
+// Add event listeners after the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all buttons on the page
+    const buttons = document.querySelectorAll('button');
+
+    // The first button will trigger the plot and zoom
+    //buttons[0].addEventListener('click', plotOriginalMessage);
+
+    // The second button will shrink the plot back to its original size
+    buttons[1].addEventListener('click', () => {
+        const plotElement = document.getElementById('messageSignal');
+        plotElement.style.transform = 'scale(1)';  // Reset to original size
+    });
+});
+
+
+function plotBPSKSignal() {
+numSymbols = inputBits.length;
+SNR_dB = parseInt(document.getElementById('snr').value);
+    Plotly.newPlot('bpskSignal', [{
+        x: inputSymbols.flatMap((_, idx) => [idx, (idx + 1)]),
+        y: inputSymbols.flatMap(val => [val, val]),
+        mode: 'lines',
+        type: 'scatter',
+        marker: { color: 'blue' }
+    }], {
+        title: 'NRZ Signal',
+        xaxis: { title: 'Bit Index' },
+        yaxis: { title: 'Amplitude' }
+    });
+	document.getElementById('scrolltonrz').scrollIntoView({ behavior: 'smooth' });
+    // Get the plot container
+    const plotElement = document.getElementById('bpskSignal');
+    
+    // Apply CSS transform to zoom to 500%
+    plotElement.style.transition = 'transform 0.5s ease';  // Smooth transition
+    plotElement.style.transform = 'scale(1.2)';  // Zoom to 500%
+}
+
+// Add event listeners after the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all buttons on the page
+    const buttons = document.querySelectorAll('button');
+
+    // The first button will trigger the plot and zoom
+    //buttons[0].addEventListener('click', plotOriginalMessage);
+
+    // The second button will shrink the plot back to its original size
+    buttons[2].addEventListener('click', () => {
+        const plotElement = document.getElementById('bpskSignal');
+        plotElement.style.transform = 'scale(1)';  // Reset to original size
+    });
+});
+
+
+        function generatePSKModulatedSignal1() {
+Fc = parseInt(document.getElementById('carrierFrequency').value);
+Fs = parseInt(document.getElementById('samplingFrequency').value);
+			//bit_rate = parseInt(document.getElementById("bit_rate").value);
+            //num_bits = parseInt(document.getElementById("num_bits").value);
+            //phase_shift_value = parseFloat(document.getElementById("phase_shift").value);
+
+            // PSK modulation
+            const t = Array.from({ length: Math.floor(Fs) }, (_, i) => i / Fs);
+            modulated_signal1 = [];
+            const phase_shift = Math.PI;
+
+            for (const bit of alamoutiTransmittedSignals[0]) {
+                const phase = bit === -1 ? 0 : phase_shift;
+                const signal = t.map((time) => Math.sin(2 * Math.PI * Fc * time + phase));
+                modulated_signal1 = modulated_signal1.concat(signal);
+            }
+
+            // Plot modulated signal
+            const modulatedData = [{
+                x: Array.from({ length: modulated_signal1.length }, (_, i) => (i / Fs)),
+                y: modulated_signal1,
+                type: "scatter",
+                mode: "lines",
+                name: "Modulated Signal",
+            }];
+
+            const modulatedLayout = {
+                title: "Transmitted Signal from Antenna 1 (PassBand)",
+                xaxis: { title: "Time (s)" },
+                yaxis: { title: "Amplitude" },
+            };
+
+            Plotly.newPlot("modulated-plot1", modulatedData, modulatedLayout);
+			document.getElementById('scrolltopassband1').scrollIntoView({ behavior: 'smooth' });
+			console.log("modulated_signal1", modulated_signal1);
+        
+		    // Get the plot container
+    const plotElement = document.getElementById('modulated-plot1');
+    
+    // Apply CSS transform to zoom to 500%
+    plotElement.style.transition = 'transform 0.5s ease';  // Smooth transition
+    plotElement.style.transform = 'scale(1.2)';  // Zoom to 500%
+}
+
+// Add event listeners after the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all buttons on the page
+    const buttons = document.querySelectorAll('button');
+
+    // The first button will trigger the plot and zoom
+    //buttons[0].addEventListener('click', plotOriginalMessage);
+
+    // The second button will shrink the plot back to its original size
+    buttons[3].addEventListener('click', () => {
+        const plotElement = document.getElementById('modulated-plot1');
+        plotElement.style.transform = 'scale(1)';  // Reset to original size
+    });
+});
+
+        function generatePSKModulatedSignal2() {
+Fc = parseInt(document.getElementById('carrierFrequency').value);
+Fs = parseInt(document.getElementById('samplingFrequency').value);
+			//bit_rate = parseInt(document.getElementById("bit_rate").value);
+            //num_bits = parseInt(document.getElementById("num_bits").value);
+            //phase_shift_value = parseFloat(document.getElementById("phase_shift").value);
+
+            // PSK modulation
+            const t = Array.from({ length: Math.floor(Fs) }, (_, i) => i / Fs);
+            modulated_signal2 = [];
+            const phase_shift = Math.PI;
+
+            for (const bit of alamoutiTransmittedSignals[1]) {
+                const phase = bit === -1 ? 0 : phase_shift;
+                const signal = t.map((time) => Math.sin(2 * Math.PI * Fc * time + phase));
+                modulated_signal2 = modulated_signal2.concat(signal);
+            }
+
+            // Plot modulated signal
+            const modulatedData = [{
+                x: Array.from({ length: modulated_signal2.length }, (_, i) => (i / Fs)),
+                y: modulated_signal2,
+                type: "scatter",
+                mode: "lines",
+                name: "Modulated Signal",
+            }];
+
+            const modulatedLayout = {
+                title: "Transmitted Signal from Antenna 2 (PassBand)",
+                xaxis: { title: "Time (s)" },
+                yaxis: { title: "Amplitude" },
+            };
+
+            Plotly.newPlot("modulated-plot2", modulatedData, modulatedLayout);
+			document.getElementById('scrolltopassband2').scrollIntoView({ behavior: 'smooth' });
+        
+
+		    // Get the plot container
+    const plotElement = document.getElementById('modulated-plot2');
+    
+    // Apply CSS transform to zoom to 500%
+    plotElement.style.transition = 'transform 0.5s ease';  // Smooth transition
+    plotElement.style.transform = 'scale(1.2)';  // Zoom to 500%
+}
+
+// Add event listeners after the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all buttons on the page
+    const buttons = document.querySelectorAll('button');
+
+    // The first button will trigger the plot and zoom
+    //buttons[0].addEventListener('click', plotOriginalMessage);
+
+    // The second button will shrink the plot back to its original size
+    buttons[4].addEventListener('click', () => {
+        const plotElement = document.getElementById('modulated-plot2');
+        plotElement.style.transform = 'scale(1)';  // Reset to original size
+    });
+});
+
+	
+        // Function to plot Rayleigh fading channel coefficients
+        function plotChannelCoefficients() {
+// Generate Rayleigh fading channel coefficients for both antennas
+h1_real = parseFloat(document.getElementById('h1_real').value);
+h1_imag = parseFloat(document.getElementById('h1_imag').value);
+h2_real = parseFloat(document.getElementById('h2_real').value);
+h2_imag = parseFloat(document.getElementById('h2_imag').value);
+
+            // Create arrays for plotting
+            const coefficients = [
+                {name: 'Tx Antenna 1', real: h1_real, imag: h1_imag},
+                {name: 'Tx Antenna 2', real: h2_real, imag: h2_imag}
+            ];
+
+            const xValues = coefficients.map(coef => coef.name);
+            const yReal = coefficients.map(coef => coef.real);
+            const yImag = coefficients.map(coef => coef.imag);
+
+            // Create traces for real and imaginary parts
+            const traceReal = {
+                x: xValues,
+                y: yReal,
+                name: 'Real Part',
+                type: 'bar',
+                width: 0.03 // Set the width of the bars (0 to 1, where 1 is full width)
+            };
+
+            const traceImag = {
+                x: xValues,
+                y: yImag,
+                name: 'Imaginary Part',
+                type: 'bar',
+                width: 0.03 // Set the width of the bars (0 to 1, where 1 is full width)
+            };
+
+            // Create data array for the plot
+            const data = [traceReal, traceImag];
+
+            // Define layout
+            const layout = {
+                title: 'Rayleigh Fading Channel Coefficients',
+                barmode: 'group',
+                xaxis: {
+                    title: 'Antennas',
+                },
+                yaxis: {
+                    title: 'Coefficient Value',
+                }
+            };
+
+            // Plot the data
+            Plotly.newPlot('plot-CIR', data, layout);
+				document.getElementById('scrolltocir').scrollIntoView({ behavior: 'smooth' });
+		    // Get the plot container
+    const plotElement = document.getElementById('plot-CIR');
+    
+    // Apply CSS transform to zoom to 500%
+    plotElement.style.transition = 'transform 0.5s ease';  // Smooth transition
+    plotElement.style.transform = 'scale(1.2)';  // Zoom to 500%
+}
+
+// Add event listeners after the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all buttons on the page
+    const buttons = document.querySelectorAll('button');
+
+    // The first button will trigger the plot and zoom
+    //buttons[0].addEventListener('click', plotOriginalMessage);
+
+    // The second button will shrink the plot back to its original size
+    buttons[5].addEventListener('click', () => {
+        const plotElement = document.getElementById('plot-CIR');
+        plotElement.style.transform = 'scale(1)';  // Reset to original size
+    });
+});
+
+function plotCombinedReceivedSignal() {
+    numSymbols = inputBits.length;
+    SNR_dB = parseFloat(document.getElementById('snr').value);
+    const SNR_linear = Math.pow(10, SNR_dB / 10);  // Convert SNR from dB to linear scale
+    const signalPower = 1;  // Assuming the signal power is normalized to 1
+    const noisePower = signalPower / SNR_linear;
+
+    oddtimeslotmodulationplusnoise = new Array(modulated_signal1.length);
+    eventimeslotmodulationplusnoise = new Array(modulated_signal1.length);
+
+    // Box-Muller transform to generate AWGN noise
+    function generateAWGN(noisePower) {
+        const u1 = Math.random();
+        const u2 = Math.random();
+        const z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+        return Math.sqrt(noisePower) * z0;
+    }
+
+    // Perform the operations with AWGN
+    for (let i = 0; i < modulated_signal1.length; i++) {
+        const noiseOdd = generateAWGN(noisePower);
+        const noiseEven = generateAWGN(noisePower);
+
+        oddtimeslotmodulationplusnoise[i] = modulated_signal1[i] * h1_real + modulated_signal2[i] * h2_real + noiseOdd; // a * c + b * d + noise
+        eventimeslotmodulationplusnoise[i] = -modulated_signal2[i] * h2_real + modulated_signal1[i] * h1_real + noiseEven; // -b * c + a * d + noise
+    }
+
+    // Output the results
+    console.log("Odd Time Slot Modulation Plus Noise:", oddtimeslotmodulationplusnoise);
+    console.log("Even Time Slot Modulation Plus Noise:", eventimeslotmodulationplusnoise);
+
+    let trace1 = {
+        x: oddtimeslotmodulationplusnoise.flatMap((_, idx) => [idx, (idx + 1)]),
+        y: oddtimeslotmodulationplusnoise.flatMap(val => [val, val]),
+        mode: 'lines',
+        type: 'scatter',
+        name: 'Odd Slots (Real)',  // Legend label for odd slots
+        marker: { color: 'purple' }
+    };
+
+    let trace2 = {
+        x: eventimeslotmodulationplusnoise.flatMap((_, idx) => [idx, (idx + 1)]),
+        y: eventimeslotmodulationplusnoise.flatMap(val => [val, val]),
+        mode: 'lines',
+        type: 'scatter',
+        name: 'Even Slots (Real)',  // Legend label for even slots
+        marker: { color: 'blue' }
+    };
+
+    let layout = {
+        title: 'Received Signal at Odd and Even Time Slots (Real)',
+        xaxis: { title: 'Bit Index' },
+        yaxis: { title: 'Bit Value' },
+        legend: { x: 1, y: 1 }
+    };
+
+    Plotly.newPlot('combinedReceivedSignal', [trace1, trace2], layout);
+    document.getElementById('scrolltoreceivedsignal').scrollIntoView({ behavior: 'smooth' });
+	
+    // Output the results
+    console.log("Odd Time Slot Modulation Plus Noise:", oddtimeslotmodulationplusnoise);
+    console.log("Even Time Slot Modulation Plus Noise:", eventimeslotmodulationplusnoise);
+
+		    // Get the plot container
+    const plotElement = document.getElementById('combinedReceivedSignal');
+    
+    // Apply CSS transform to zoom to 500%
+    plotElement.style.transition = 'transform 0.5s ease';  // Smooth transition
+    plotElement.style.transform = 'scale(1.2)';  // Zoom to 500%
+}
+
+// Add event listeners after the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all buttons on the page
+    const buttons = document.querySelectorAll('button');
+
+    // The first button will trigger the plot and zoom
+    //buttons[0].addEventListener('click', plotOriginalMessage);
+
+    // The second button will shrink the plot back to its original size
+    buttons[6].addEventListener('click', () => {
+        const plotElement = document.getElementById('combinedReceivedSignal');
+        plotElement.style.transform = 'scale(1)';  // Reset to original size
+    });
+});
+
+
+	
+	
+function plotDecodedMessage() {
+numSymbols = inputBits.length;
+SNR_dB = parseInt(document.getElementById('snr').value);
+    Plotly.newPlot('decodedMessageSignal', [{
+        x: decodedSymbols.flatMap((_, idx) => [idx, (idx + 1)]),
+        y: decodedSymbols.flatMap(val => [val, val]),
+        mode: 'lines',
+        type: 'scatter',
+        marker: { color: 'purple' }
+    }], {
+        title: 'Decoded Message Signal',
+        xaxis: { title: 'Bit Index' },
+        yaxis: { title: 'Bit Value' }
+    });
+	document.getElementById('scrolltodemodulated').scrollIntoView({ behavior: 'smooth' });
+
+		    // Get the plot container
+    const plotElement = document.getElementById('decodedMessageSignal');
+    
+    // Apply CSS transform to zoom to 500%
+    plotElement.style.transition = 'transform 0.5s ease';  // Smooth transition
+    plotElement.style.transform = 'scale(1.2)';  // Zoom to 500%
+}
+
+// Add event listeners after the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all buttons on the page
+    const buttons = document.querySelectorAll('button');
+
+    // The first button will trigger the plot and zoom
+    //buttons[0].addEventListener('click', plotOriginalMessage);
+
+    // The second button will shrink the plot back to its original size
+    buttons[7].addEventListener('click', () => {
+        const plotElement = document.getElementById('decodedMessageSignal');
+        plotElement.style.transform = 'scale(1)';  // Reset to original size
+    });
+});
+
+</script>
+	
+	<style>
+	h1 {
+    color: #333;
+    font-size: 22px; /* Increased font size */
+    margin-bottom: 20px;
+}
+	ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #e0e7ff;
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 14px; /* Set font size for list items */
+}
+
+li::before {
+    content: "✔";
+    color: #4caf50;
+    margin-right: 10px;
+}
+	</style>
+  </body>
+</html>

@@ -1,0 +1,343 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Virtual Labs</title>
+    <link rel="stylesheet" href="../css/vlabs-style.css" />
+    <link rel="shortcut icon" href="../images/favicon.ico" />
+  </head>
+  <body>
+    <header class="border-b-orange-500 border-b-8">
+      <nav class="flex justify-between">
+        <button class="px-4 py-1 rounded-r-md border-r" onclick="showModal()">
+          <img
+            class="w-[30px] h-[30px]"
+            src="../images/menu.png"
+          />
+        </button>
+        <div class="flex justify-center">
+          <a href="https://vlab.co.in" class="navbar-brand">
+            <img
+              src="../images/vlabs-color-small-moe.jpg"
+              alt="vlabs logo"
+              class="mx-4 px-4 max-md:w-[118px] max-md:h-[64px] py-2"
+            />
+          </a>
+        </div>
+        <div id="headerNavbar" class="flex items-center ml-auto max-md:hidden">
+          <ul
+            class="flex text-center text-[#2c98cd]"
+            style="font-family: Raleway, sans-serif"
+          >
+            <li class="px-2 m-1">
+              <a
+                class="mx-4 px-4 py-2 hover:bg-[#99cc3e] hover:underline hover:text-white rounded-lg"
+                href="https://vlab.co.in"
+                >HOME</a
+              >
+            </li>
+            <li class="px-2 m-1">
+              <a
+                class="mx-4 px-4 py-2 hover:bg-[#99cc3e] hover:underline hover:text-white rounded-lg"
+                href="https://vlab.co.in/participating-institutes"
+                >PARTNERS</a
+              >
+            </li>
+            <li class="px-2 m-1">
+              <a
+                class="mx-4 px-4 py-2 hover:bg-[#99cc3e] hover:underline hover:text-white rounded-lg"
+                href="https://vlab.co.in/contact-us"
+                >CONTACT</a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- overlaynavbar -->
+      <div
+        class="overlaycontainer w-[100%] h-[100vh] bg-[#00000080] fixed top-[0%] -z-50 opacity-0"
+      ></div>
+      <div
+        class="overlaysignupform ease-in-out duration-100 fixed -top-[150%] left-[50%] -translate-x-1/2 z-50"
+      >
+        <div class="flex justify-center items-center px-4 h-[100vh] w-[100vw]">
+          <div
+            class="relative bg-white border border-solid border-[#00000033] rounded-md w-[498px] flex flex-col overflow-y-auto"
+          >
+            <div class="p-4 flex justify-between items-center border-b">
+              <div class="w-[87px] h-[50px] flex justify-center items-center">
+                <a href="https://vlab.co.in">
+                  <img
+                    src="../images/vlabs-color-small-moe.jpg"
+                    alt="vlabs logo"
+                    class="w-[71px] h-[40px]"
+                  />
+                </a>
+              </div>
+              <button class="w-[24px] h-[24px]" onclick="closeModal()">
+                <img src="../images/close.png" />
+              </button>
+            </div>
+            <div
+              class="p-4 flex flex-col text-[19.2px] font-bold text-[#3e6389]"
+            >
+              <div class="flex justify-center">
+                <a
+                  href="../index.html"
+                  class="p-2 hover:text-[#343a40] hover:underline"
+                >
+                  Aim
+                </a>
+              </div>
+              <div class="flex justify-center">
+                <a
+                  href="../theory.html"
+                  class="p-2 text-[#FF6600] hover:underline"
+                >
+                  Theory
+                </a>
+              </div>
+              <div class="flex justify-center">
+                <a
+                  href="../pretest.html"
+                  class="p-2 text-[#343a40] hover:underline"
+                >
+                  Pretest
+                </a>
+              </div>
+              <div class="flex justify-center">
+                <a
+                  href="../procedure.html"
+                  class="p-2 hover:text-[#343a40] hover:underline"
+                >
+                  Procedure
+                </a>
+              </div>
+              <div class="flex justify-center">
+                <a
+                  href="../simulation.html"
+                  class="p-2 hover:text-[#343a40] hover:underline"
+                >
+                  Simulation
+                </a>
+              </div>
+              <div class="flex justify-center">
+                <a
+                  href="../posttest.html"
+                  class="p-2 hover:text-[#343a40] hover:underline"
+                >
+                  Posttest
+                </a>
+              </div>
+              <div class="flex justify-center">
+                <a
+                  href="../references.html"
+                  class="p-2 hover:text-[#343a40] hover:underline"
+                >
+                  References
+                </a>
+              </div>
+              <div class="flex justify-center">
+                <a
+                  href="../feedback.html"
+                  class="p-2 hover:text-[#343a40] hover:underline"
+                >
+                  Feedback
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- sidebar and body -->
+    <div class="flex min-h-[380px]">
+      <div class="maincontent px-8 pb-6 flex-1">
+        <div
+          class="w-full text-[19.2px] text-[#313636]"
+          style="font-family: Raleway, sans-serif"
+        >
+          <h2
+            class="text-center pt-6 border-b pb-2 mb-2 text-[#2C99CE] text-[32px]"
+          >
+            Alamouti Scheme
+          </h2>
+          <p class="mb-4">
+            Alamouti's Space-Time Block Coding (STBC) is a technique used in
+            MIMO wireless communication systems to achieve diversity gain
+            without requiring channel knowledge at the transmitter. It involves
+            transmitting multiple copies of the same symbols over multiple
+            antennas with specific phase relationships. This allows the receiver
+            to combine the signals effectively and recover the transmitted
+            symbols even in the presence of fading.
+            <br />
+            <br />
+            The Alamouti precoding matrix is constructed based on the Alamouti
+            code, which defines the phase relationships between the symbols
+            transmitted from different antennas over two consecutive time slots.
+            For a <span class="font-bold"> 2x1 MIMO system </span>(two transmit
+            antennas and one receive antenna), the Alamouti precoding matrix is
+            as follows:
+          </p>
+          <p class="font-semibold text-black">
+            Alamouti Precoding Matrix=[s1 −s2∗; s2 s1∗]
+          </p>
+          <p>
+            Where: <br /><br />
+            s1 and s2 are the symbols to be transmitted from the two antennas in
+            the current time slot.<br />
+            s1∗ and s2∗ are the complex conjugates of s1 and s2 respectively.
+            <br />
+            This matrix ensures that the symbols transmitted from the two
+            antennas in the current time slot have the necessary phase
+            relationships to achieve diversity gain at the receiver.
+            <br /><br />
+            Here's how the Alamouti precoding matrix works: <br /><br />
+            In the first time slot, symbols s1 and s2 are transmitted from the
+            two antennas without any phase manipulation. <br />
+            In the second time slot, symbols −s2∗ and s1∗ are transmitted from
+            the two antennas. The negative sign and complex conjugate ensure the
+            correct phase relationship required for diversity gain at the
+            receiver. <br />
+            At the receiver, combining the signals from the two time slots using
+            Alamouti decoding allows for effective recovery of the transmitted
+            symbols, even in the presence of fading. <br />
+            <br />
+            By using Alamouti's STBC and the corresponding precoding matrix, the
+            MIMO system can achieve diversity gain and improve performance
+            without requiring explicit channel knowledge at the transmitter.
+          </p>
+          <h3 class="text-[24px] underline font-semibold text-black py-2">
+            Orthogonality Property
+          </h3>
+          <p>
+            Alamouti's Space-Time Block Coding (STBC) scheme ensures that
+            symbols transmitted from different antennas in successive time slots
+            are orthogonal to each other. This orthogonality property is
+            essential for enabling simple decoding at the receiver and achieving
+            diversity gain without requiring channel knowledge at the
+            transmitter. <br />
+            <br />
+
+            Now, let's calculate the inner product (dot product) between two
+            encoded symbols transmitted from different antennas in successive
+            time slots. <br />
+
+            Let x1x1 and x2x2 be the encoded symbols transmitted from the two
+            antennas in the first and second time slots respectively. <br />
+            x1=[s1 ; s2] <br />
+            x2=[−s2∗ ; s1∗] <br />
+            <br />
+
+            The inner product x1' * x2 is given by: <br />
+            <br />
+            <span class="font-bold">
+              x1' * x2 = [s1 ; s2] * [−s2∗ ; s1∗] <br />
+              =−∣s2∣^2 + ∣s1∣^2 </span
+            ><br />
+            <br />
+            Since the symbols s1 and s2 are independent and identically
+            distributed (IID) random variables with equal power, their
+            magnitudes are equal, i.e., ∣s1∣=∣s2∣. Therefore, the inner product
+            x1' * x2 simplifies to: <br />
+            <br />
+            <span class="font-bold"
+              >x1' * x2 = −∣s2∣^2 + ∣s1∣^2 = 0x1Tx2= −∣s1∣^2 + ∣s1∣^2 = 0</span
+            >
+            <br />
+            <br />
+            This shows that the inner product between the encoded symbols
+            transmitted from different antennas in successive time slots is
+            zero, indicating orthogonality. <br />
+            <br />
+
+            This orthogonality property allows the receiver to effectively
+            decode the transmitted symbols by taking advantage of the diversity
+            provided by the multiple antennas without interference between
+            symbols transmitted from different antennas.
+          </p>
+        </div>
+      </div>
+    </div>
+    <footer class="">
+      <div class="flex max-sm:flex-col text-white bg-[#111111] px-6">
+        <div class="flex-1 flex flex-col px-[15px]">
+          <span class="font-weight-bold vlabs-footer-sect-name pb-2 mb-3"
+            >Community Links</span
+          >
+          <a href="https://www.sakshat.ac.in/" class="text-light"
+            >Sakshat Portal</a
+          >
+          <a href="http://outreach.vlabs.ac.in/" class="text-light"
+            >Outreach Portal</a
+          >
+          <a href="https://vlab.co.in/faq" class="text-light"
+            >FAQ: Virtual Labs</a
+          >
+        </div>
+        <div class="flex-1 flex flex-col px-[15px]">
+          <span class="font-bold vlabs-footer-sect-name pb-2 mb-3"
+            >Contact Us</span
+          >
+          <span> Phone: General Information: 011-26582050 </span>
+          <span> Email: support@vlabs.ac.in </span>
+        </div>
+        <div class="flex-1 flex flex-col px-[15px]">
+          <span class="font-bold vlabs-footer-sect-name pb-2 mb-3"
+            >Follow Us</span
+          >
+          <div class="flex pb-2">
+            <a
+              class="p-2 mt-1 mr-2 rounded-full flex justify-center items-center"
+              style="background: #55acee"
+              href="https://twitter.com/TheVirtualLabs"
+            >
+              <img src="../images/twitter.png" alt="twitter" />
+            </a>
+            <a
+              class="p-2 mt-1 mr-2 flex rounded-full justify-center items-center"
+              style="background: #3b5998"
+              href="https://www.facebook.com/Virtual-Labs-IIT-Delhi-301510159983871/"
+            >
+              <img src="../images/facebook.png" alt="facebook" />
+            </a>
+            <a
+              class="p-2 mt-1 mr-2 flex rounded-full justify-center items-center"
+              style="background: #e52d27"
+              href="https://www.youtube.com/watch?v=asxRaOgk6a0"
+            >
+              <img src="../images/youtube.png" alt="youtube" />
+            </a>
+            <a
+              class="p-2 mt-1 mr-2 flex rounded-full justify-center items-center"
+              style="background: #2867b2"
+              href="https://in.linkedin.com/in/virtual-labs-008ba9136"
+            >
+              <img src="../images/linkedin.png" alt="linkedin" />
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="m-0 py-2 text-center text-white text-sm max-sm:text-[12px]"
+        style="font-family: 'Open Sans', sans-serif; background: #212121"
+      >
+        <a
+          class="text-[#007bff] hover:text-[#3273dc] hover:underline font-bold"
+          href="https://www.gnu.org/licenses/agpl-3.0.en.html"
+        >
+          AGPL 3.0
+        </a>
+        &nbsp;&amp;&nbsp;
+        <a
+          class="text-[#007bff] hover:text-[#3273dc] hover:underline font-bold"
+          href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+        >
+          Creative Commons (CC BY-NC-SA 4.0)
+        </a>
+      </div>
+    </footer>
+    <script src="../js/toggleSidebar.js"></script>
+  </body>
+</html>

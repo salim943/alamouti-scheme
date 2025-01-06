@@ -2,38 +2,174 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "What is the key assumption made about the channel's coherence time in the Alamouti scheme for it to function effectively?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Coherence time must be longer than the transmission of two time slots",
+        "b": "Coherence time must be shorter than the transmission of two time slots",
+        "c": "Coherence time should match exactly one time slot",
+        "d": "Coherence time does not affect the Alamouti scheme"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Correct. The channel must remain constant over at least two time slots.",
+        "b": "A shorter coherence time disrupts the assumption of constant channel state.",
+        "c": "Matching one time slot would not preserve channel information for decoding.",
+        "d": "Coherence time is crucial for decoding."
       },
       "correctAnswer": "a",
-      "difficulty": "beginner"
+      "difficulty": "hard"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "In the presence of Rayleigh fading, how does the Alamouti scheme achieve diversity gain?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "By transmitting symbols with equal power",
+        "b": "By sending conjugated symbols across two antennas",
+        "c": "Through maximum likelihood decoding at the receiver",
+        "d": "By increasing the number of transmit antennas"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Equal power transmission does not directly lead to diversity gain.",
+        "b": "Conjugated symbol transmission helps preserve orthogonality but does not alone achieve diversity.",
+        "c": "Correct. Decoding using maximum likelihood achieves diversity gain.",
+        "d": "The scheme specifically requires only two antennas."
       },
       "correctAnswer": "c",
-      "difficulty": "beginner"
+      "difficulty": "hard"
+    },
+    {
+      "question": "What mathematical property of the Alamouti coding matrix ensures its orthogonality?",
+      "answers": {
+        "a": "Its determinant is non-zero",
+        "b": "Its rows are complex conjugates of each other",
+        "c": "The matrix is unitary",
+        "d": "It has equal eigenvalues"
+      },
+      "explanations": {
+        "a": "Determinant alone does not imply orthogonality.",
+        "b": "Complex conjugate rows are part of the structure but not sufficient to define orthogonality.",
+        "c": "Correct. A unitary matrix ensures orthogonality, preserving the inner product.",
+        "d": "Eigenvalues relate to diagonalization, not orthogonality."
+      },
+      "correctAnswer": "c",
+      "difficulty": "hard"
+    },
+    {
+      "question": "How does the Alamouti scheme maintain signal orthogonality across two antennas during transmission?",
+      "answers": {
+        "a": "By sending identical signals",
+        "b": "By reversing the phase of the second symbol",
+        "c": "By transmitting one symbol normally and the other as its negative conjugate",
+        "d": "By delaying the second signal by one time slot"
+      },
+      "explanations": {
+        "a": "Identical signals do not provide orthogonality.",
+        "b": "Phase reversal alone does not achieve orthogonality.",
+        "c": "Correct. This pattern ensures orthogonality across time slots.",
+        "d": "Delays would disrupt the transmission structure."
+      },
+      "correctAnswer": "c",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What is a challenge faced when implementing Alamouti's scheme in high mobility scenarios?",
+      "answers": {
+        "a": "The scheme requires higher bandwidth",
+        "b": "The coherence time of the channel may be too short",
+        "c": "Synchronization between antennas is difficult",
+        "d": "The scheme needs more antennas"
+      },
+      "explanations": {
+        "a": "The scheme does not require higher bandwidth.",
+        "b": "Correct. High mobility reduces coherence time, affecting performance.",
+        "c": "Synchronization is important but not unique to high mobility.",
+        "d": "The scheme only needs two antennas."
+      },
+      "correctAnswer": "b",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What decoding method is typically used at the receiver in the Alamouti scheme for optimal performance?",
+      "answers": {
+        "a": "Minimum Mean Squared Error (MMSE)",
+        "b": "Zero-Forcing",
+        "c": "Maximum Likelihood Detection",
+        "d": "Linear combination with equal gain"
+      },
+      "explanations": {
+        "a": "MMSE is suboptimal for this specific scheme.",
+        "b": "Zero-Forcing is not robust for fading conditions.",
+        "c": "Correct. Maximum Likelihood Detection ensures optimal decoding.",
+        "d": "Equal gain combination does not leverage full diversity."
+      },
+      "correctAnswer": "c",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What is the role of the complex conjugate operation in the Alamouti scheme?",
+      "answers": {
+        "a": "It improves the power efficiency of the system",
+        "b": "It helps in maintaining orthogonality at the receiver",
+        "c": "It doubles the data rate",
+        "d": "It simplifies the channel estimation process"
+      },
+      "explanations": {
+        "a": "Power efficiency is not directly related.",
+        "b": "Correct. Conjugates ensure proper decoding and orthogonality.",
+        "c": "Data rate is maintained, not doubled.",
+        "d": "Channel estimation remains a complex task."
+      },
+      "correctAnswer": "b",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What happens if the channel is estimated incorrectly during the decoding process of the Alamouti scheme?",
+      "answers": {
+        "a": "The received signal will be amplified",
+        "b": "The decoded signal may have a higher bit error rate",
+        "c": "The diversity gain will increase",
+        "d": "The transmission power will adjust automatically"
+      },
+      "explanations": {
+        "a": "Amplification does not occur due to channel estimation errors.",
+        "b": "Correct. Incorrect channel estimation increases BER.",
+        "c": "Diversity gain relies on accurate channel estimation.",
+        "d": "Transmission power is not affected by estimation errors."
+      },
+      "correctAnswer": "b",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Which assumption about noise is typically made in the Alamouti scheme's performance analysis?",
+      "answers": {
+        "a": "Noise is frequency selective",
+        "b": "Noise is colored and correlated",
+        "c": "Noise is additive and white",
+        "d": "Noise is non-Gaussian"
+      },
+      "explanations": {
+        "a": "Noise is assumed to be uniform over frequency.",
+        "b": "Noise is assumed uncorrelated (white).",
+        "c": "Correct. Additive white Gaussian noise is the common assumption.",
+        "d": "Gaussian noise is typically assumed for analysis."
+      },
+      "correctAnswer": "c",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What kind of diversity gain does the Alamouti scheme achieve in a 2x1 configuration?",
+      "answers": {
+        "a": "Full space diversity with an order of 1",
+        "b": "Full space diversity with an order of 2",
+        "c": "Diversity gain of 3",
+        "d": "Temporal diversity"
+      },
+      "explanations": {
+        "a": "Order 1 indicates no significant diversity gain.",
+        "b": "Correct. The scheme achieves a diversity order of 2.",
+        "c": "Diversity gain of 3 is not applicable.",
+        "d": "The scheme achieves spatial, not temporal, diversity."
+      },
+      "correctAnswer": "b",
+      "difficulty": "hard"
     }
   ]
 }
