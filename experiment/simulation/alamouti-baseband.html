@@ -69,11 +69,11 @@
 	<div id = "instructions">
     <h1>Instructions for Alamouti Scheme using BPSK (BaseBand)</h1>
     <ul>
-        <li>Step 1: Click on 'Generate Message' button to generate input message signal</li>
-		<li>Step 2: Then click on 'Generate NRZ' button to generate NRZ signal for message. NRZ simplifies the processing of binary data, including the Alamouti space-time block coding (STBC). Each BPSK-modulated symbol in the Alamouti scheme is either a +1 or -1, and NRZ encoding aligns perfectly with this binary structure, making it easier to map and process the transmitted symbols.</li>
-        <li>Step 3: Click on 'Show Transmitted Signal from Antenna 1' button to generate signal for odd time slot</li>
-		<li>Step 4: Click on 'Show Transmitted Signal from Antenna 2' button to generate signal for even time slot</li>
-        <li>Step 5: Click on 'Show Channel Coefficeints' to show Rayleigh Fading Channel Coefficients</li>
+        <li class="step step1">Step 1: Click on 'Generate Message' button to generate input message signal</li>
+		<li class="step step2">Step 2: Then click on 'Generate NRZ' button to generate NRZ signal for message. NRZ simplifies the processing of binary data, including the Alamouti space-time block coding (STBC). Each BPSK-modulated symbol in the Alamouti scheme is either a +1 or -1, and NRZ encoding aligns perfectly with this binary structure, making it easier to map and process the transmitted symbols.</li>
+        <li class="step step3">Step 3: Click on 'Show Transmitted Signal from Antenna 1' button to generate signal for odd time slot</li>
+		<li class="step step4">Step 4: Click on 'Show Transmitted Signal from Antenna 2' button to generate signal for even time slot</li>
+        <li class="step step1">Step 5: Click on 'Show Channel Coefficeints' to show Rayleigh Fading Channel Coefficients</li>
 		</ul>
 	</div>
 	<hr/>
@@ -103,7 +103,7 @@
 	<hr/>
 	
 	<div class = "container">
-	<div class = "left-half">
+	<div class = "left-half relative">
 	          <div class="flex gap-1">
               <div class="flex-1 flex flex-col items-center">
                 <div class="w-full">
@@ -114,40 +114,40 @@
 					style= "height:450px; width: 550px; margin-left: 40px"
                   />
 				<button
-                  class="button bg-blue-500 text-white rounded-md px-2 py-1 absolute top-[360px] left-[2px]"
+                  class="button bg-blue-500 text-white rounded-md px-2 py-1 absolute top-[20px] left-[2px]"
                   onclick="plotOriginalMessage()"
                 >
                   Generate Message
                 </button>
 				<button
-                  class="button bg-blue-500 text-white rounded-md px-2 py-1 absolute top-[400px] left-[2px]"
+                  class="button bg-blue-500 text-white rounded-md px-2 py-1 absolute top-[60px] left-[2px]"
                   onclick="plotBPSKSignal()"
                 >
                   Generate NRZ
                 </button>
 								<button
-                  class="button bg-blue-500 text-white rounded-md px-2 py-1 absolute bottom-[10px] left-[2px]"
+                  class="button bg-blue-500 text-white rounded-md px-2 py-1 absolute top-[550px] left-[2px]"
                   onclick="plotTransmittedSignalAntenna1()"
                 >
                   Show Transmitted Signal from Antenna 1
                 </button>
 				
 			    <button
-                  class="button bg-blue-500 text-white rounded-md px-2 py-1 relative bottom-[-50px] left-[2px]"
+                  class="button bg-blue-500 text-white rounded-md px-2 py-1 relative top-[50px] left-[2px]"
                   onclick="plotTransmittedSignalAntenna2()"
                 >
                   Show Transmitted Signal from Antenna 2
                 </button>
 				
 					                <button
-                  class="button bg-blue-500 text-white rounded-md px-2 py-1 relative bottom-[-5px] left-[50px]"
+                  class="button bg-blue-500 text-white rounded-md px-2 py-1 absolute top-[550px] left-[350px]"
                   onclick="plotChannelCoefficients()"
                 >
                 Show Channel Coefficients
                 </button>
 				
 			    <button
-                  class="button bg-gray-500 text-white rounded-md px-2 py-1 relative bottom-[-90px] left-[200px]"
+                  class="button bg-gray-500 text-white rounded-md px-2 py-1 relative top-[50px] left-[50px]"
                   onclick="plotCombinedReceivedSignal()"
                 >
                 Show Received Signal
@@ -188,7 +188,7 @@
               </div>
 	</div>
 	
-<div class="right-half">
+<div class="right-half hidden">
 <br/>
     <table id="resultsTable" border="1" class = "custom-table">
         <tr>
@@ -206,76 +206,78 @@
 	
 
 	    <!-- sidebar and body -->
-			  <div id = "container">
+			  <div id = "container" style="position: relative; top: 230px;">
     <h1>Instructions for Alamouti Demodulation</h1>
     <ul>
-		<li>Step 1: Click on 'Show Received Signal' button to show receied signal at odd and even time slots</li>
+		<li class="step step1">Step 1: Click on 'Show Received Signal' button to show receied signal at odd and even time slots</li>
 
-		<li>Step 2: You can Demodulate the Alamouti clicking on the 'Perform Demodulation' button</li>
+		<li class="step step2">Step 2: You can Demodulate the Alamouti clicking on the 'Perform Demodulation' button</li>
     </ul>
 </div>
-    <div class="flex min-h-[80vh]">
-      <div class="px-6 pb-6 flex-1">
-        <!--  -->
-        <div class="flex">
-          <div class="flex-1 basis-4/5 flex flex-col">
-            <div class="flex max-lg:flex-col mt-5 items-center gap-x-8 gap-y-2">
-
-
-            </div>
-            <div class="flex max-lg:flex-col mt-5 items-center gap-x-8 gap-y-2">
- 
-
-            </div>
+<div class="flex min-h-[80vh]">
+    <div class="px-6 pb-6 flex-1">
+      <div class="flex">
+        <div class="flex-1 basis-4/5 flex flex-col">
+          <div class="flex max-lg:flex-col mt-5 items-center gap-x-8 gap-y-2">
+            <!-- Placeholder for future content -->
           </div>
-
+          <div class="flex max-lg:flex-col mt-5 items-center gap-x-8 gap-y-2">
+            <!-- Placeholder for future content -->
+          </div>
         </div>
-        <div class="mt-4 border-t-2">
-          <div class="flex flex-col">
-            <div class="flex justify-center pt-4">
+      </div>
+  
+      <div class="mt-4 border-t-2">
+        <div class="flex flex-col">
+          <!-- Image and Buttons on same row -->
+          <div class="flex gap-4 items-center justify-center flex-wrap mt-4">
+            <!-- Image -->
+            <div class="flex justify-center">
+              <img
+                src="alamouti_demod.png"
+                alt="Alamouti_Scheme"
+                class="h-[550px] w-[650px]"
+              />
+            </div>
+  
+            <!-- Buttons -->
+            <div class="flex flex-col items-center justify-center gap-4">
               <button
-                class="bg-blue-500 text-white rounded-md px-2 py-1"
-                class="button"
+                class="bg-blue-500 text-white rounded-md px-4 py-2"
                 onclick="plotCombinedReceivedSignal()"
               >
-               Show Received Signal
+                Show Received Signal
               </button>
-            </div>
-
-			            <div class="flex justify-center pt-4">
+  
               <button
-                class="bg-blue-500 text-white rounded-md px-2 py-1"
-                class="button"
+                class="bg-blue-500 text-white rounded-md px-4 py-2"
                 onclick="plotDecodedMessage()"
               >
-               Perform Demodulation
+                Perform Demodulation
               </button>
             </div>
-            <div class="flex gap-1">
-              <div class="flex-1 flex flex-col items-center">
-                <div class="w-full">
-                  <img
-                    class="w-[80%] h-[80%]"
-                    src="alamouti_demod.png"
-                    alt="Alamouti_Scheme"
-					style= "height:550px; width: 650px;"
-                  />
-                </div>
-              </div>
-			  <div style="overflow: auto">
-              <div id = "scrolltoreceivedsignal" class="flex items-center gap-2 justify-center max-lg:flex-col">
+          </div>
+  
+          <!-- Plots below -->
+          <div class="mt-6 overflow-auto">
+            <div
+              id="scrolltoreceivedsignal"
+              class="flex items-center gap-2 justify-center max-lg:flex-col"
+            >
               <div id="combinedReceivedSignal" class="w-[600px] h-[450px]"></div>
             </div>
-			              <div id = "scrolltodemodulated" class="flex items-center gap-2 justify-center max-lg:flex-col">
+  
+            <div
+              id="scrolltodemodulated"
+              class="flex items-center gap-2 justify-center max-lg:flex-col mt-6"
+            >
               <div id="decodedMessageSignal" class="w-[600px] h-[450px]"></div>
-            </div>
-			</div>
             </div>
           </div>
         </div>
-        <!--  -->
       </div>
     </div>
+  </div>
 <script>
         // Function to check if the number of input bits is odd
         function checkInputBits() {
@@ -498,11 +500,11 @@ console.log('Number of errors:', errors);
 //document.getElementById('errorCount').innerText = `BER: ${ber}`;
 
             // Check for duplicates in results
-            const existingEntry = results.find(entry => entry.snr === SNR_dB);
-            if (existingEntry) {
-                alert(`SNR value ${SNR_dB} dB already exists.`);
-                return;
-}
+            //const existingEntry = results.find(entry => entry.snr === SNR_dB);
+            //if (existingEntry) {
+                //alert(`SNR value ${SNR_dB} dB already exists.`);
+                //return;
+//}
 
             // Store SNR and BER
             results.push({ snr: SNR_dB, ber: ber });
@@ -891,29 +893,68 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 	
 	<style>
-	h1 {
-    color: #333;
-    font-size: 22px; /* Increased font size */
-    margin-bottom: 20px;
-}
-	ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    background-color: #e0e7ff;
-    margin: 5px 0;
-    padding: 5px;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 14px; /* Set font size for list items */
+#container {
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  padding: 25px 40px;
+  max-width: 100%;
+  margin: 20px auto;
+  text-align: left;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-li::before {
-    content: "✔";
-    color: #4caf50;
-    margin-right: 10px;
+h1 {
+  color: #1e3a8a;
+  font-size: 24px;
+  margin-bottom: 25px;
+  text-align: justify;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li.step {
+  margin: 12px 0;
+  padding: 12px 15px;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+li.step::before {
+  content: "✔";
+  color: #10b981;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+li.step:hover {
+  transform: scale(1.02);
+  background-color: #f3f4f6;
+}
+
+/* Color code each step */
+.step1 {
+  background-color: #ffe0e0;
+  border-left: 5px solid #ef4444;
+}
+.step2 {
+  background-color: #e0f7ff;
+  border-left: 5px solid #0ea5e9;
+}
+.step3 {
+  background-color: #e0ffe5;
+  border-left: 5px solid #22c55e;
+}
+.step4 {
+  background-color: #f5e0ff;
+  border-left: 5px solid #a855f7;
 }
 	</style>
   </body>

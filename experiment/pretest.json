@@ -2,175 +2,174 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "What is the primary benefit of using the Alamouti scheme in a BPSK system?",
+      "question": "Why does the Alamouti scheme maintain orthogonality at the receiver despite multipath fading?",
       "answers": {
-        "a": "Increased data rate",
-        "b": "Improved spectral efficiency",
-        "c": "Diversity gain and reduced bit error rate",
-        "d": "Lower transmission power"
+        "a": "Because it uses BPSK modulation only",
+        "b": "Due to the special structure of the transmit matrix",
+        "c": "Because of perfect power control at the transmitter",
+        "d": "Because fading is assumed to be Gaussian"
       },
       "explanations": {
-        "a": "The Alamouti scheme primarily improves reliability, not data rate.",
-        "b": "Spectral efficiency is not significantly improved in this scheme.",
-        "c": "Correct. The Alamouti scheme provides diversity gain and reduces the bit error rate.",
-        "d": "It does not directly lower transmission power."
-      },
-      "correctAnswer": "c",
-      "difficulty": "intermediate"
-    },
-    {
-      "question": "How many time slots does the Alamouti scheme use to transmit two symbols in a BPSK system?",
-      "answers": {
-        "a": "One time slot",
-        "b": "Two time slots",
-        "c": "Three time slots",
-        "d": "Four time slots"
-      },
-      "explanations": {
-        "a": "One time slot is not sufficient for transmitting two symbols in this scheme.",
-        "b": "Correct. The Alamouti scheme transmits two symbols over two time slots.",
-        "c": "Three time slots are not required.",
-        "d": "Four time slots would be excessive for this scheme."
+        "a": "The orthogonality is not dependent on modulation type alone.",
+        "b": "Correct. The Alamouti matrix structure preserves orthogonality even under fading.",
+        "c": "Power control is unrelated to orthogonality in this context.",
+        "d": "Fading characteristics affect reliability, not matrix orthogonality."
       },
       "correctAnswer": "b",
       "difficulty": "intermediate"
     },
     {
-      "question": "In the Alamouti scheme, how many transmitter antennas are used?",
+      "question": "What condition must the channel satisfy for the Alamouti scheme to guarantee maximum diversity gain?",
       "answers": {
-        "a": "One",
-        "b": "Two",
-        "c": "Three",
-        "d": "Four"
+        "a": "Fading must be independent across transmit antennas",
+        "b": "The receiver must estimate noise accurately",
+        "c": "Transmit antennas must be tightly spaced",
+        "d": "Channel coefficients must be constant for at least four time slots"
       },
       "explanations": {
-        "a": "One transmitter antenna does not provide spatial diversity.",
-        "b": "Correct. The Alamouti scheme uses two transmitter antennas.",
-        "c": "Three antennas are not used in the basic Alamouti scheme.",
-        "d": "Four antennas are excessive for this scheme."
-      },
-      "correctAnswer": "b",
-      "difficulty": "intermediate"
-    },
-    {
-      "question": "What type of diversity is achieved by using the Alamouti scheme in a BPSK system?",
-      "answers": {
-        "a": "Time diversity",
-        "b": "Frequency diversity",
-        "c": "Spatial diversity",
-        "d": "Polarization diversity"
-      },
-      "explanations": {
-        "a": "The scheme does not rely on time diversity.",
-        "b": "Frequency diversity is not the focus here.",
-        "c": "Correct. The Alamouti scheme achieves spatial diversity using multiple antennas.",
-        "d": "Polarization diversity is unrelated to the Alamouti scheme."
-      },
-      "correctAnswer": "c",
-      "difficulty": "intermediate"
-    },
-    {
-      "question": "What is the encoding matrix used in the Alamouti scheme?",
-      "answers": {
-        "a": "1 -1; 1 1",
-        "b": "s1 s2; -s2* s1*",
-        "c": "s1 s2; s2 s1",
-        "d": "s1* s2; -s2 s1*"
-      },
-      "explanations": {
-        "a": "This is not the correct Alamouti matrix.",
-        "b": "Correct. This is the encoding matrix used for Alamouti scheme.",
-        "c": "This is not the structure of the encoding matrix.",
-        "d": "Incorrect arrangement of conjugate and signs."
-      },
-      "correctAnswer": "b",
-      "difficulty": "intermediate"
-    },
-    {
-      "question": "Which channel model is most commonly used for testing the Alamouti scheme?",
-      "answers": {
-        "a": "AWGN only",
-        "b": "Rayleigh fading",
-        "c": "Rician fading",
-        "d": "Free space model"
-      },
-      "explanations": {
-        "a": "AWGN only does not represent realistic multipath fading.",
-        "b": "Correct. Rayleigh fading is used to test systems with multipath propagation.",
-        "c": "Rician fading is also used but less common than Rayleigh for Alamouti.",
-        "d": "Free space model lacks fading effects needed for Alamouti tests."
-      },
-      "correctAnswer": "b",
-      "difficulty": "intermediate"
-    },
-    {
-      "question": "What assumption is made at the receiver for decoding the Alamouti scheme?",
-      "answers": {
-        "a": "The receiver has perfect channel state information (CSI).",
-        "b": "The transmitter and receiver are synchronized only in time.",
-        "c": "The receiver knows the exact noise power.",
-        "d": "The receiver estimates CSI with some error margin."
-      },
-      "explanations": {
-        "a": "Correct. The receiver typically assumes perfect CSI for optimal decoding.",
-        "b": "Synchronization is not the only assumption.",
-        "c": "Noise power knowledge is not assumed.",
-        "d": "Decoding assumes perfect CSI for ideal performance."
+        "a": "Correct. Independent fading across antennas ensures full diversity.",
+        "b": "Noise estimation helps but is not the key requirement for diversity gain.",
+        "c": "Tight spacing reduces spatial diversity.",
+        "d": "Two time slots are sufficient; four is unnecessary."
       },
       "correctAnswer": "a",
       "difficulty": "intermediate"
     },
     {
-      "question": "How does the Alamouti scheme handle the received signal for decoding?",
+      "question": "If the channel changes between the two Alamouti time slots, what is the likely impact?",
       "answers": {
-        "a": "It uses only the signal from one antenna.",
-        "b": "It combines signals from two antennas with conjugate multiplication.",
-        "c": "It averages the received signals over multiple time slots.",
-        "d": "It decodes the received signal without any processing."
+        "a": "Improved bit error rate due to channel diversity",
+        "b": "Increased decoding complexity but better performance",
+        "c": "Loss of orthogonality and degraded decoding performance",
+        "d": "The system becomes resistant to Doppler effects"
       },
       "explanations": {
-        "a": "Both antennas are used for spatial diversity.",
-        "b": "Correct. The scheme combines signals using complex conjugate multiplication.",
-        "c": "Averaging is not used in Alamouti decoding.",
-        "d": "Processing is essential for accurate decoding."
+        "a": "Channel variation disrupts orthogonality, worsening BER.",
+        "b": "Complexity doesn't help if decoding structure breaks.",
+        "c": "Correct. Orthogonality relies on a constant channel over two time slots.",
+        "d": "Doppler effects are not handled directly by Alamouti."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "How does the Alamouti scheme enable decoding without inter-symbol interference (ISI)?",
+      "answers": {
+        "a": "By spreading symbols in frequency domain",
+        "b": "By using time-domain guard intervals",
+        "c": "By maintaining orthogonal code structure across time slots",
+        "d": "By employing cyclic prefix"
+      },
+      "explanations": {
+        "a": "Alamouti is a time-domain scheme, not frequency spreading.",
+        "b": "Guard intervals help with multipath, not directly related to Alamouti decoding.",
+        "c": "Correct. Orthogonal structure ensures symbols can be decoded independently.",
+        "d": "Cyclic prefix is used in OFDM, not Alamouti directly."
+      },
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is the effect of channel correlation between transmit antennas in the Alamouti scheme?",
+      "answers": {
+        "a": "It improves diversity gain",
+        "b": "It reduces diversity and worsens BER",
+        "c": "It has no impact due to orthogonal encoding",
+        "d": "It enhances spectral efficiency"
+      },
+      "explanations": {
+        "a": "Correlation reduces diversity, not enhances it.",
+        "b": "Correct. Correlated channels reduce the effectiveness of spatial diversity.",
+        "c": "Orthogonality at the encoder cannot fully compensate for channel correlation.",
+        "d": "Spectral efficiency is unchanged."
       },
       "correctAnswer": "b",
       "difficulty": "intermediate"
     },
     {
-      "question": "What is the key advantage of the Alamouti scheme in terms of complexity?",
+      "question": "Which of the following best describes why Alamouti decoding is linear?",
       "answers": {
-        "a": "Lower transmission power",
-        "b": "Simple linear decoding",
-        "c": "No need for channel estimation",
-        "d": "High spectral efficiency"
+        "a": "It avoids multiplication operations",
+        "b": "It solves a system of linear equations based on channel matrix",
+        "c": "It uses a fixed lookup table",
+        "d": "It transforms signals into the frequency domain"
       },
       "explanations": {
-        "a": "Transmission power is not significantly reduced.",
-        "b": "Correct. The scheme allows for simple linear decoding at the receiver.",
-        "c": "Channel estimation is needed for decoding.",
-        "d": "Spectral efficiency is not the main advantage."
+        "a": "Multiplications are used in decoding.",
+        "b": "Correct. The decoding involves solving linear equations with channel coefficients.",
+        "c": "Lookup tables are not used in linear MIMO decoding.",
+        "d": "The scheme is time-domain based."
       },
       "correctAnswer": "b",
       "difficulty": "intermediate"
     },
     {
-      "question": "Which property of the channel is crucial for the Alamouti scheme to work effectively?",
+      "question": "In a 2x1 Alamouti system, what happens if the receiver only uses one of the two time slot signals?",
       "answers": {
-        "a": "The channel must be stationary and flat fading during two time slots.",
-        "b": "The channel must change rapidly to achieve better diversity.",
-        "c": "The channel must have Rician fading characteristics.",
-        "d": "The channel must have no noise."
+        "a": "Full diversity is still achieved",
+        "b": "Orthogonality is maintained but with lower power",
+        "c": "Half the diversity gain is lost, degrading performance",
+        "d": "It improves processing speed"
       },
       "explanations": {
-        "a": "Correct. The channel should be constant during the two time slots for proper decoding.",
-        "b": "Rapid changes disrupt the decoding process.",
-        "c": "Rician fading is not necessary for the scheme.",
-        "d": "Noise is always present and accounted for in the design."
+        "a": "Both time slots are required for full diversity.",
+        "b": "Orthogonality depends on both slots.",
+        "c": "Correct. Ignoring one time slot discards valuable spatial information.",
+        "d": "At the cost of degraded signal recovery."
       },
-      "correctAnswer": "a",
+      "correctAnswer": "c",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is a necessary condition for applying Alamouti in OFDM systems?",
+      "answers": {
+        "a": "The channel must be frequency-selective",
+        "b": "Each subcarrier experiences flat fading",
+        "c": "Channel must change rapidly across subcarriers",
+        "d": "BPSK must be used for all subcarriers"
+      },
+      "explanations": {
+        "a": "Frequency-selective channels require OFDM but each subcarrier is assumed flat.",
+        "b": "Correct. Alamouti is applied per subcarrier assuming flat fading on each.",
+        "c": "Rapid change breaks coherence across OFDM symbols.",
+        "d": "Modulation type can vary, not necessarily BPSK."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "Which mathematical operation is critical in reconstructing the transmitted symbols in Alamouti decoding?",
+      "answers": {
+        "a": "Matrix transpose",
+        "b": "Conjugate transpose (Hermitian)",
+        "c": "Fast Fourier Transform (FFT)",
+        "d": "Vector cross-product"
+      },
+      "explanations": {
+        "a": "Transpose alone is insufficient for proper decoding.",
+        "b": "Correct. Conjugate transpose ensures orthogonality is exploited in decoding.",
+        "c": "FFT is unrelated to basic Alamouti scheme.",
+        "d": "Cross-products are not used in decoding."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "How does the Alamouti scheme ensure symbol orthogonality over a Rayleigh fading channel?",
+      "answers": {
+        "a": "By applying maximum likelihood decoding with CSI",
+        "b": "By using pilot symbols and equalization",
+        "c": "By transmitting symbols over uncorrelated fading paths with a specific encoding matrix",
+        "d": "By increasing the number of antennas"
+      },
+      "explanations": {
+        "a": "ML decoding helps, but orthogonality comes from transmission design.",
+        "b": "Pilots assist estimation but not the cause of orthogonality.",
+        "c": "Correct. Alamouti’s encoding structure across independent fading paths preserves orthogonality.",
+        "d": "More antennas are not required in basic Alamouti scheme."
+      },
+      "correctAnswer": "c",
       "difficulty": "intermediate"
     }
   ]
 }
-

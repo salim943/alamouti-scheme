@@ -67,8 +67,8 @@
 	<div id = "instructions">
     <h1>Plot the BER vs. SNR for the Alamouti scheme</h1>
     <ul>
-        <li>Step 1: Click the 'Plot BER vs. SNR' button to display the corresponding Bit Error Rate (BER) vs. Signal-to-Noise Ratio (SNR) in dB.</li>
-        <li>Step 2: Ensure that when calculating BER for different SNR values, the number of bits stays the same.</li>
+        <li class="step step1">Step 1: Click the 'Plot BER vs. SNR' button to display the corresponding Bit Error Rate (BER) vs. Signal-to-Noise Ratio (SNR) in dB.</li>
+        <li class="step step2">Step 2: Ensure that when calculating BER for different SNR values, the number of bits stays the same.</li>
 </ul>
 	</div>
 	<hr/>
@@ -402,29 +402,68 @@ console.log('Number of errors:', errors);
 </script>
 	
 	<style>
-	h1 {
-    color: #333;
-    font-size: 22px; /* Increased font size */
-    margin-bottom: 20px;
-}
-	ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    background-color: #e0e7ff;
-    margin: 5px 0;
-    padding: 5px;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 14px; /* Set font size for list items */
+#container {
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  padding: 25px 40px;
+  max-width: 100%;
+  margin: 20px auto;
+  text-align: left;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-li::before {
-    content: "✔";
-    color: #4caf50;
-    margin-right: 10px;
+h1 {
+  color: #1e3a8a;
+  font-size: 24px;
+  margin-bottom: 25px;
+  text-align: justify;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li.step {
+  margin: 12px 0;
+  padding: 12px 15px;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+li.step::before {
+  content: "✔";
+  color: #10b981;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+li.step:hover {
+  transform: scale(1.02);
+  background-color: #f3f4f6;
+}
+
+/* Color code each step */
+.step1 {
+  background-color: #ffe0e0;
+  border-left: 5px solid #ef4444;
+}
+.step2 {
+  background-color: #e0f7ff;
+  border-left: 5px solid #0ea5e9;
+}
+.step3 {
+  background-color: #e0ffe5;
+  border-left: 5px solid #22c55e;
+}
+.step4 {
+  background-color: #f5e0ff;
+  border-left: 5px solid #a855f7;
 }
 	</style>
   </body>
